@@ -1,0 +1,29 @@
+{
+  "name": "webuicss",
+  "version": "0.0.1",
+  "description": "A CSS framework based on tailwindcss and JavaScript",
+  "main": "webuicss.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite dev",
+    "build": "vite build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asyncdesign/webuicss.git"
+  },
+  "keywords": [
+    "tailwind",
+    "css",
+    "javascript",
+    "ES6",
+    "framework",
+    "web"
+  ],
+  "author": "Levi Keogh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/asyncdesign/webuicss/issues"
+  },
+  "homepage": "https://github.com/asyncdesign/webuicss#readme"
+}
