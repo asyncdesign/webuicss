@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>webuicss</id>
+    <version>0.0.1</version>
+    <title>webuicss</title>
+    <authors>AsyncDesign</authors>
+    <owners>AsyncDesign</owners>
+    <license type="file">LICENSE.txt</license>
+    <readme>README.md</readme>
+    <description>A CSS framework based on tailwindcss and JavaScript.</description>
+    <releaseNotes>https://github.com/asyncdesign/webuicss/releases</releaseNotes>
+    <summary></summary>
+    <language>en-us</language>
+    <projectUrl>https://asyncdesign.github.io/webuicss/</projectUrl>
+    <icon>webui_blue_128x128.png</icon>
+    <copyright>Copyright AsyncDesign 2025</copyright>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <dependencies>
+    </dependencies>
+    <tags>tailwind css javascript ES6 framework web</tags>
+  </metadata>
+  <files>
+    <file src="LICENSE.txt" target="" />
+    <file src="README.md" target="" />
+  </files>
+</package>

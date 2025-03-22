@@ -1,0 +1,16 @@
+
+# Extensions
+*.log
+*.7z
+*.zip
+
+# Folders
+node_modules
+nuget
+tests
+website_folder
+working_folder
+
+# OS
+Thumbs.db
+.DS_Store
