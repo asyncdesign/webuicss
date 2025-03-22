@@ -13,7 +13,7 @@
     <summary></summary>
     <language>en-us</language>
     <projectUrl>https://asyncdesign.github.io/webuicss/</projectUrl>
-    <icon>webui_blue_128x128.png</icon>
+    <icon>package-icon.png</icon>
     <copyright>Copyright AsyncDesign 2025</copyright>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <dependencies>
@@ -23,5 +23,6 @@
   <files>
     <file src="LICENSE.txt" target="" />
     <file src="README.md" target="" />
+    <file src="..\webuicss\package-icon.png" target="" />
   </files>
 </package>
