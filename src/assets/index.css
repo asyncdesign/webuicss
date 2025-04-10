@@ -1,0 +1,168 @@
+@import "tailwindcss";
+
+/* NOTE: Keep these variables to a minimum to avoid performance impacts */
+
+:root {
+
+  --color: var(--color-black);
+  --background: var(--color-white);
+
+  --accent: var(--color-orange-200);
+  --accessibility-focus: var(--color-black);
+
+  --link-text: var(--color-sky-300);
+  --link-text-hover: var(--color-sky-200);
+  --link-text-focus: var(--color-sky-400);
+  --link-text-active: var(--color-sky-500);
+
+  --input-text: var(--color-black);
+  --input-border: var(--color-neutral-300);
+  --input-background: var(--color-white);
+  --input-background-focus: var(--color-neutral-100);
+
+  --control-text: var(--color-white);
+  --control-border: var(--color-sky-600);
+  --control-background: var(--color-sky-700);
+  --control-background-secondary: var(--color-sky-900);
+  --control-background-inactive: var(--color-sky-600);
+  --control-background-inactive-secondary: var(--color-sky-800);
+  --control-background-hover: var(--color-sky-500);
+  --control-background-focus: var(--color-sky-500);
+  --control-background-active: var(--color-sky-900);
+
+  --data-text: var(--color-black);
+  --data-border: var(--color-neutral-300);
+  --data-background: var(--color-sky-50);
+  --data-heading-background: var(--color-sky-200);
+  --data-alternate-background: var(--color-sky-100);
+  --data-background-hover: var(--color-sky-300);
+  --data-background-focus: var(--color-sky-400);
+  --data-background-active: var(--color-sky-400);
+
+
+  /* Success color variants */
+  --text-success: var(--color-green-500);
+  
+  --link-text-success: var(--color-green-300);
+  --link-text-success-hover: var(--color-green-200);
+  --link-text-success-focus: var(--color-green-400);
+  --link-text-success-active: var(--color-green-500);
+
+  --input-text-success: var(--input-text);
+  --input-border-success: var(--color-neutral-100);
+  --input-background-success: var(--input-background);
+  --input-background-success-focus: var(--color-green-50);
+
+  --control-text-success: var(--color-white);
+  --control-border-success: var(--color-green-500);
+  --control-background-success: var(--color-green-600);
+  --control-background-secondary-success: var(--color-green-700);
+  --control-background-inactive-success: var(--color-green-500);
+  --control-background-inactive-secondary-success: var(--color-green-600);
+  --control-background-hover-success: var(--color-green-500);
+  --control-background-focus-success: var(--color-green-400);
+  --control-background-active-success: var(--color-green-700);
+
+
+  /* Warning color variants */
+  --text-warning: var(--color-amber-500);
+  
+  --link-text-warning: var(--color-amber-300);
+  --link-text-warning-hover: var(--color-amber-200);
+  --link-text-warning-focus: var(--color-amber-400);
+  --link-text-warning-active: var(--color-amber-500);
+
+  --input-text-warning: var(--input-text);
+  --input-border-warning: var(--color-neutral-100);
+  --input-background-warning: var(--input-background);
+  --input-background-warning-focus: var(--color-amber-50);
+
+  --control-text-warning: var(--color-white);
+  --control-border-warning: var(--color-amber-500);
+  --control-background-warning: var(--color-amber-600);
+  --control-background-secondary-warning: var(--color-amber-700);
+  --control-background-inactive-warning: var(--color-amber-500);
+  --control-background-inactive-secondary-warning: var(--color-amber-600);
+  --control-background-hover-warning: var(--color-amber-500);
+  --control-background-focus-warning: var(--color-amber-400);
+  --control-background-active-warning: var(--color-amber-700);
+
+
+  /* Danger color variants */
+  --text-danger: var(--color-red-500);
+  
+  --link-text-danger: var(--color-red-300);
+  --link-text-danger-hover: var(--color-red-200);
+  --link-text-danger-focus: var(--color-red-400);
+  --link-text-danger-active: var(--color-red-500);
+
+  --input-text-danger: var(--input-text);
+  --input-border-danger: var(--color-neutral-100);
+  --input-background-danger: var(--input-background);
+  --input-background-danger-focus: var(--color-red-50);
+
+  --control-text-danger: var(--color-white);
+  --control-border-danger: var(--color-red-500);
+  --control-background-danger: var(--color-red-600);
+  --control-background-secondary-danger: var(--color-red-700);
+  --control-background-inactive-danger: var(--color-red-500);
+  --control-background-inactive-secondary-danger: var(--color-red-600);
+  --control-background-hover-danger: var(--color-red-500);
+  --control-background-focus-danger: var(--color-red-400);
+  --control-background-active-danger: var(--color-red-700);
+
+
+  --disabled-text: var(--color-neutral-500);
+  --disabled-border: var(--color-neutral-300);
+  --disabled-background: var(--color-neutral-300);
+  
+}
+
+.dark {
+
+  --color: var(--color-white);
+  --background: var(--color-neutral-800);
+  
+  --accent: var(--color-yellow-400);
+  --accessibility-focus: var(--color-blue-500);
+
+  --link-text: var(--color-white);
+  --link-text-hover: var(--color-neutral-500);
+  --link-text-focus: var(--color-white);
+  --link-text-active: var(--color-neutral-300);
+
+  --input-text: var(--color-white);
+  --input-border: var(--color-neutral-300);
+  --input-background: var(--color-neutral-700);
+  --input-background-focus: var(--color-neutral-500);
+
+  --control-text: var(--color-white);
+  --control-border: var(--color-neutral-600);
+  --control-background: var(--color-neutral-700);
+  --control-background-secondary: var(--color-neutral-900);
+  --control-background-inactive: var(--color-neutral-600);
+  --control-background-inactive-secondary: var(--color-neutral-700);
+  --control-background-hover: var(--color-neutral-500);
+  --control-background-focus: var(--color-neutral-500);
+  --control-background-active: var(--color-neutral-900);
+
+  --data-text: var(--color-white);
+  --data-border: var(--color-neutral-400);
+  --data-background: var(--color-neutral-600);
+  --data-heading-background: var(--color-neutral-700);
+  --data-alternate-background: var(--color-neutral-600);
+  --data-background-hover: var(--color-neutral-800);
+  --data-background-focus: var(--color-neutral-900);
+  --data-background-active: var(--color-neutral-900);
+
+  --disabled-text: var(--color-neutral-400);
+  --disabled-border: var(--color-neutral-600);
+  --disabled-background: var(--color-neutral-600);
+
+}
+
+
+@theme {
+
+
+}

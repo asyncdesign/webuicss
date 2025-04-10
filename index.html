@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="./src/assets/images/favicon.ico">
+  <title>Document</title>
+
+</head>
+<body class="accessibility flex justify-center">
+
+  <div class="w-10/12 lg:w-6/12">
+    
+    <div class="flex justify-center mt-5 mb-5">
+      <img src="./src/assets/images/webuicss-logo-mid-blue.png" width="300" height="75" alt="Media" class="zoom-image" />
+    </div>
+
+    <p class="text-2xl text-center">A CSS and JavaScript framework</p>
+
+    <p class="text-center mb-10" id="#subText">vite + tailwindcss</p>
+
+
+    <div class="flex justify-between mb-5">
+      <label>Two-way Model Binding:</label>
+      <input type="text" class="input-sm rounded-sm" data-model="firstName" />
+    </div>
+    <div class="flex justify-between mb-10">
+      <label>One-way Data Binding:</label>
+      <div data-bind="firstName"></div>
+    </div>
+    
+
+    <div class="flex justify-between mb-5">
+      <label>Two-way Model Binding:</label>
+      <input type="text" class="input-sm rounded-sm" data-model="lastName" />
+    </div>
+    <div class="flex justify-between mb-10">
+      <label>One-way Data Binding:</label>
+      <div data-bind="lastName"></div>
+    </div>
+
+    <div class="flex justify-between mb-10">
+      <div>
+        <label>Computed:</label>
+        <button class="button rounded-sm ml-5" id="btnCount">0</button>
+      </div>
+      <div id="computed"></div>
+    </div>
+    
+    <div class="mb-10">
+      <form>
+        <label for="fname">First name:</label><br>
+        <input type="text" id="fname" name="fname" value="" class="input-sm rounded-sm mb-5" data-model="fname"><br>
+        <label for="lname">Last name:</label><br>
+        <input type="text" id="lname" name="lname" value="" class="input-sm rounded-sm mb-5" data-model="lname"><br>
+        <label for="address">Address:</label><br>
+        <input type="text" id="address" name="address" value="" class="input-sm w-full rounded-sm mb-5" data-model="address"><br>
+        <input type="submit" value="Submit" class="button-sm rounded-sm">
+      </form>
+    </div>
+
+    <div class="mb-10">
+      <label for="address">Form Data: </label><br>
+      <textarea class="control h-20 w-full rounded-sm" data-bind="data"></textarea>
+    </div>
+
+  </div>
+
+
+  <script type="module">
+
+    import webui from "@asyncdesign/webui";
+    import { zoom } from "@asyncdesign/zoom";
+    import { navIndicator } from "@asyncdesign/nav-indicator";
+    
+
+    const zoomImage = zoom (".zoom-image", { 
+      zoomFactor: 1.2,
+      trigger: "hover",
+      transitionDuration: 300,
+      zoomInCallback: null,
+      zoomOutCallback: null
+    });
+
+
+    let count = webui.signal(0)
+
+    const btn = webui("#btnCount").click(() => count.value++)
+
+    webui.watch(() => {
+      btn.text(count.value)
+    })
+
+    let double = webui.computed(() => count.value * 2)
+
+    webui.watch(() => {
+      webui("#computed").text(double.value)
+    })
+
+
+    webui.bind({
+      firstName: "",
+      lastName: ""
+    });
+
+
+    const formData = new Object();
+
+    formData.fname = "";
+    formData.lname = "";
+    formData.address = "";
+
+    webui.bind(formData);
+
+
+    let data = webui.signal("");
+
+    webui.watch(() => {
+      webui("textarea").val(data.value)
+    })
+
+
+    webui("form").submit((e) => {
+      e.preventDefault();
+      
+      data.value = webui.getJsonFormData("form");
+    });
+
+
+  </script>
+  
+</body>
+</html>
