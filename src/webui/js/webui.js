@@ -1740,7 +1740,7 @@ webui.rgbToHex = function (r, g, b) {
 };
 
 webui.rgbStringToHex = function (rgb) {
-  var rgbValues = rgb.replace(/[^\d,]/g, '').split(',');
+  let rgbValues = rgb.replace(/[^\d,]/g, '').split(',');
   rgbValues = rgbValues.slice(0, 3);
   if (rgbValues && rgbValues.length === 3) {
     return "#" + ((1 << 24) + (parseInt(rgbValues[0]) << 16) + (parseInt(rgbValues[1]) << 8) + parseInt(rgbValues[2])).toString(16).slice(1);
@@ -1756,7 +1756,7 @@ webui.getAccessibilityContrastColor = function (hexColor) {
     hexColor = "" + hexColor[0] + hexColor[0] + hexColor[1] + hexColor[1] + hexColor[2] + hexColor[2];
   }
   if (hexColor.length === 6) {
-    var r = parseInt(hexColor.slice(0, 2), 16), g = parseInt(hexColor.slice(2, 4), 16), b = parseInt(hexColor.slice(4, 6), 16);
+    let r = parseInt(hexColor.slice(0, 2), 16), g = parseInt(hexColor.slice(2, 4), 16), b = parseInt(hexColor.slice(4, 6), 16);
     return r * .299 + g * .587 + b * .114 > 156 ? "#000000" : "#FFFFFF";
   }
   return undefined;
@@ -1765,25 +1765,25 @@ webui.getAccessibilityContrastColor = function (hexColor) {
 webui.getColorShade = function (hexColor, rgbValue) {
   if (arguments.length === 2) {
     if ((hexColor.length === 6 || hexColor.length === 7) && !isNaN(rgbValue)) {
-      var hasHash = false;
+      let hasHash = false;
       if (hexColor[0] === "#") {
         hexColor = hexColor.slice(1);
         hasHash = true;
       }
-      var num = parseInt(hexColor, 16);
-      var r = (num >> 16) + rgbValue;
+      let num = parseInt(hexColor, 16);
+      let r = (num >> 16) + rgbValue;
       if (r > 255) {
         r = 255;
       } else if (r < 0) {
         r = 0;
       }
-      var g = (num & 255) + rgbValue;
+      let g = (num & 255) + rgbValue;
       if (g > 255) {
         g = 255;
       } else if (g < 0) {
         g = 0;
       }
-      var b = (num >> 8 & 255) + rgbValue;
+      let b = (num >> 8 & 255) + rgbValue;
       if (b > 255) {
         b = 255;
       } else if (b < 0) {
@@ -2230,7 +2230,7 @@ webui.ready = function (callback, waitForComplete) {
   }
 };
 
-webui.version = "0.0.1";
+webui.version = "0.0.2";
 
 
 /* EVENT HANDLERS */

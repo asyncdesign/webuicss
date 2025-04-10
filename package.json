@@ -1,6 +1,6 @@
 {
   "name": "webuicss",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A CSS framework based on tailwindcss and JavaScript",
   "main": "webuicss.js",
   "scripts": {
