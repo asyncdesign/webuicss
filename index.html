@@ -19,44 +19,76 @@
 
     <p class="text-center mb-10" id="#subText">vite + tailwindcss</p>
 
-
-    <div class="flex justify-between mb-5">
-      <label>Two-way Model Binding:</label>
-      <input type="text" class="input-sm rounded-sm" data-model="firstName" />
-    </div>
-    <div class="flex justify-between mb-10">
-      <label>One-way Data Binding:</label>
-      <div data-bind="firstName"></div>
-    </div>
-    
-
-    <div class="flex justify-between mb-5">
-      <label>Two-way Model Binding:</label>
-      <input type="text" class="input-sm rounded-sm" data-model="lastName" />
-    </div>
-    <div class="flex justify-between mb-10">
-      <label>One-way Data Binding:</label>
-      <div data-bind="lastName"></div>
+    <div class="flex mb-5">
+      <b>Model and Data Binding:</b>
     </div>
 
-    <div class="flex justify-between mb-10">
-      <div>
-        <label>Computed:</label>
-        <button class="button rounded-sm ml-5" id="btnCount">0</button>
+    <div class="grid gap-2 mb-5">
+      <div class="flex items-center">
+        <label for="firstName" class="w-1/4">First Name</label>
+        <input type="text" id="firstName" class="input-sm rounded-sm" data-model="firstName" />
       </div>
-      <div id="computed"></div>
+      <div class="flex items-center">
+        <label class="w-1/4">Binding:</label>
+        <div data-bind="firstName"></div>
+      </div>
+    </div>
+
+    <div class="grid gap-2 mb-10">
+      <div class="flex items-center">
+        <label for="lastName" class="w-1/4">Last Name</label>
+        <input type="text" id="lastName" class="input-sm rounded-sm" data-model="lastName" />
+      </div>
+      <div class="flex items-center">
+        <label class="w-1/4">Binding:</label>
+        <div data-bind="lastName"></div>
+      </div>
+    </div>
+
+
+    <div class="flex mb-5">
+      <b>Signals:</b>
+    </div>
+
+    <div class="grid gap-2 mb-10">
+      <div class="flex items-center">
+        <label class="w-1/4">Signal:</label>
+        <button class="button rounded-sm" id="btnCount">0</button>
+        <div class="w-1/4"></div>
+        <label class="w-1/4">Computed:</label>
+        <div id="computed"></div>
+      </div>     
     </div>
     
-    <div class="mb-10">
-      <form>
-        <label for="fname">First name:</label><br>
-        <input type="text" id="fname" name="fname" value="" class="input-sm rounded-sm mb-5" data-model="fname"><br>
-        <label for="lname">Last name:</label><br>
-        <input type="text" id="lname" name="lname" value="" class="input-sm rounded-sm mb-5" data-model="lname"><br>
-        <label for="address">Address:</label><br>
-        <input type="text" id="address" name="address" value="" class="input-sm w-full rounded-sm mb-5" data-model="address"><br>
-        <input type="submit" value="Submit" class="button-sm rounded-sm">
-      </form>
+    <div class="flex mb-5">
+      <b>Form Utilities:</b>
+    </div>
+
+    <div class="mb-5">
+      <form class="grid grid-cols-2 gap-2">
+        <!-- First Name -->
+        <div class="col-span-2 flex items-center">
+          <label for="fname" class="w-1/4">First name:</label>
+          <input type="text" id="fname" name="fname" value="" class="input-sm rounded-sm" data-model="fname">
+        </div>
+      
+        <!-- Last Name -->
+        <div class="col-span-2 flex items-center">
+          <label for="lname" class="w-1/4">Last name:</label>
+          <input type="text" id="lname" name="lname" value="" class="input-sm rounded-sm" data-model="lname">
+        </div>
+      
+        <!-- Address -->
+        <div class="col-span-2 flex items-center">
+          <label for="address" class="w-1/4">Address:</label>
+          <input type="text" id="address" name="address" value="" class="input-sm rounded-sm flex-grow" data-model="address">
+        </div>
+      
+        <!-- Submit Button -->
+        <div class="col-span-2 flex justify-end">
+          <input type="submit" value="Submit" class="button-sm rounded-sm">
+        </div>
+      </form>    
     </div>
 
     <div class="mb-10">

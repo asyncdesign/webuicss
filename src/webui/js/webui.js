@@ -10,7 +10,7 @@ const isArray = (el) => {
   return Array.isArray(el);
 }
 
-const isObject = function (el) {
+const isObject = (el) => {
   return el instanceof Object;
 }
 
@@ -18,40 +18,35 @@ const isFunction = (el) => {
   return ({}).toString.call(el) === "[object Function]";
 }
 
-const isElement = function (el) {
-  return el instanceof Element;
-}
-
-const isTextarea = function (el) {
+const isTextarea = (el) => {
   return el && el.nodeName === "TEXTAREA";
 }
 
-const isSelect = function (el) {
+const isSelect = (el) => {
   return el && el.nodeName === "SELECT";
 }
 
-const isDatalist = function (el) {
-  return el && el.nodeName === "DATALIST";
-}
-
-const isCheckbox = function (el) {
+const isCheckbox = (el) => {
   return el && el.getAttribute("type") === "checkbox";
 }
 
-const isRadio = function (el) {
+const isRadio = (el) => {
   return el && el.getAttribute("type") === "radio";
 }
 
-const isButton = function (el) {
-  if (el && el.nodeName === "BUTTON" || el && el.nodeName === "INPUT" && el.getAttribute("type") === "button") {
-    return true;
+const isButton = (el) => {
+  if (el) {
+    if (el.nodeName === "BUTTON" || el.nodeName === "INPUT" && el.getAttribute("type") === "button") {
+      return true;
+    }
   }
   return false;
 }
 
-const isTextbox = function (el) {
+const isTextbox = (el) => {
   if (el && el.nodeName === "INPUT") {
-    if (el.getAttribute("type") === null || ~["text", "number", "password", "date", "time", "search", "tel", "email", "url"].indexOf(el.getAttribute("type"))) {
+    if (el.getAttribute("type") === null || 
+      ~["text", "number", "password", "search", "tel", "email", "url", "date", "time", "month", "week", "datetime-local"].indexOf(el.getAttribute("type"))) {
       return true;
     }
   }
@@ -969,7 +964,6 @@ fn.css = function (ruleName, ruleValue) {
   return this;
 };
 
-
 fn.val = function (value) {
   let args = arguments,
     values = [];
@@ -1411,49 +1405,6 @@ fn.setFocus = function () {
   this.first()[0].focus();
 };
 
-fn.reset = function (resetData) {
-
-  this.attr("disabled", null);
-  this.attr("readonly", null);
-
-  if (arguments.length === 1 && resetData) {
-    let el;
-    for (let i = 0; i < this.length; i++) {
-      el = this[i];
-      if (isTextbox(el) || isSelect(el)) {
-        el.value = "";
-      }
-      else if (isCheckbox(el) || isRadio(el)) {
-        el.checked = false;
-      }
-      else {
-        el.textContent = "";
-      }
-    }
-  }
-  return this;
-};
-
-fn.clear = function () {
-  let el;
-  for (let i = 0; i < this.length; i++) {
-    el = this[i];
-    if (isTextbox(el) || isTextarea(el)) {
-      el.value = "";
-    } 
-    else if (isCheckbox(el) || isRadio(el)) {
-      el.checked = false;
-    } 
-    else if (isSelect(el)) {
-      webui(el).find("option").remove();
-    } 
-    else {
-      el.textContent = "";
-    }
-  }
-  return this;
-};
-
 fn.addOption = function (optionValue, optionText) {
   if (arguments.length === 2) {
     for (let i = 0; i < this.length; i++) {
@@ -1646,6 +1597,18 @@ webui.percentHeightToPx = function (element, percentValue) {
 webui.percentWidthToPx = function (element, percentValue) {
   return parseFloat(element.parent().css("width")) / 100 * percentValue;
 };
+
+webui.getStyleValue = function (propertyName) {
+  let args = arguments;
+
+  if (args.length === 1) {
+    let styles = getComputedStyle(document.documentElement);
+    let value = styles.getPropertyValue(propertyName); 
+    
+    return value ? value : undefined;
+  }
+  return undefined;
+}
 
 webui.getValueFromCssSize = function (cssSize) {
   if (cssSize && isString(cssSize)) {
