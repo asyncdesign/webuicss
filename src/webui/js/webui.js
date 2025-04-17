@@ -725,7 +725,7 @@ fn.closest = function (query) {
     el = this[i];
     
     while (el = el.parentElement) {
-      matchedEl = webui(el).selectFirst(query);
+      matchedEl = webui(el).select(query).first();
 
       if (matchedEl) {
         if (!~nodes.indexOf(matchedEl[0])) {
@@ -1532,9 +1532,476 @@ fn.moveOptionsTo = function (toSelector, moveAll, deselectAll) {
 };
 
 
+fn.slideVertical = function (direction, distance, duration, callback) {
+  var els = this,
+    args = arguments,
+    uiElement, uiPosition, uiDeltaPosition,
+    uiDirection = direction.toLowerCase() === "down" ? 1 : 0,
+    distanceValue = args.length > 1 ? webui.getValueFromCssSize(distance) : 0,
+    distanceUnit = args.length > 1 ? webui.getUnitFromCssSize(distance) : "px";
+
+  if (distanceUnit === "rem") {
+    distanceValue = webui.remToPx(distanceValue);
+    distanceUnit = "px";
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    uiElement = webui(els[i]);
+    uiElement.css("display", "block");
+    uiPosition = parseFloat(uiElement.css("top"));
+    uiDeltaPosition = uiDirection === 1 ? uiPosition : uiPosition - distanceValue;
+
+    uiElement.animate("top", uiDirection, distanceValue + distanceUnit, uiDeltaPosition, duration, function (el) {
+      if (args.length === 4 && callback) {
+        callback(el);
+      }
+    });
+
+  }
+  return els;
+};
+
+fn.slideHorizontal = function (direction, distance, duration, callback) {
+  var els = this,
+    args = arguments,
+    uiElement, uiPosition, uiDeltaPosition,
+    uiDirection = direction.toLowerCase() === "right" ? 1 : 0,
+    distanceValue = args.length > 1 ? webui.getValueFromCssSize(distance) : 0,
+    distanceUnit = args.length > 1 ? webui.getUnitFromCssSize(distance) : "px";
+
+  if (distanceUnit === "rem") {
+    distanceValue = webui.remToPx(distanceValue);
+    distanceUnit = "px";
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    uiElement = webui(els[i]);
+    uiElement.css("display", "block");
+    uiPosition = parseFloat(uiElement.css("left"));
+    uiDeltaPosition = direction.toLowerCase() === "right" ? uiPosition : uiPosition - distanceValue;
+
+    uiElement.animate("left", uiDirection, distanceValue + distanceUnit, uiDeltaPosition, duration, function (el) {
+      if (args.length === 4 && callback) {
+        callback(el);
+      }
+    });
+
+  }
+  return els;
+};
+
+fn.expandVertical = function (options, callback) {
+  var settings = webui.extend({
+    duration: 300,
+    targetHeight: "auto",
+    initialHeight: null,
+    displayType: "block",
+    paddingTop: 0,
+    paddingBottom: 0,
+    borderTopWidth: 0,
+    borderBottomWidth: 0
+  }, options),
+  
+  els = this,
+  args = arguments, 
+  uiElement, 
+  uiOverflow, 
+  uiOriginalHeight, 
+  uiTargetHeight,
+
+  targetHeightValue = webui.getValueFromCssSize(settings.targetHeight),
+  targetHeightUnit = webui.getUnitFromCssSize(settings.targetHeight),
+  initialHeightValue = webui.getValueFromCssSize(settings.initialHeight),
+  initialHeightUnit = webui.getUnitFromCssSize(settings.initialHeight);
+
+
+  for (var i = 0; i < els.length; i++) {
+    uiElement = webui(els[i]);
+    uiOverflow = uiElement.css("overflow");
+    uiElement.css("display", settings.displayType).css("overflow", "hidden").css("min-height", "0");
+    uiOriginalHeight = parseFloat(uiElement.css("height"));
+    uiOriginalHeight = uiOriginalHeight > 0 ? uiOriginalHeight : els[i].scrollHeight;
+
+
+    if (settings.targetHeight === "auto" || !targetHeightValue) {
+      uiTargetHeight = els[i].scrollHeight + parseFloat(settings.borderTopWidth) + parseFloat(settings.borderBottomWidth);  
+      uiElement.css("height", "0");
+      uiOriginalHeight = 0;
+
+      var paddingTopValue = webui.getValueFromCssSize(settings.paddingTop);    
+      if (parseFloat(uiElement.css("padding-top")) < paddingTopValue) {
+        uiTargetHeight = uiTargetHeight + paddingTopValue;
+      }
+      var paddingBottomValue = webui.getValueFromCssSize(settings.paddingBottom);
+      if (parseFloat(uiElement.css("padding-bottom")) < paddingBottomValue) {
+        uiTargetHeight = uiTargetHeight + paddingBottomValue;
+      }
+    } 
+    else if (targetHeightValue) {
+      uiTargetHeight = targetHeightValue;
+
+      if (targetHeightUnit === "%") {
+        uiTargetHeight = webui.percentHeightToPx(uiElement, uiTargetHeight)
+      }
+      else if (targetHeightUnit === "rem") {
+        uiTargetHeight = webui.remToPx(uiTargetHeight);
+      }
+      uiElement.css("height", "0");
+      uiOriginalHeight = 0;
+    }
+
+    if (settings.initialHeight !== null) {
+      uiElement.css("height", initialHeightValue + initialHeightUnit);
+      uiOriginalHeight = initialHeightValue;
+    
+      if (initialHeightUnit === "%") {
+        uiOriginalHeight = webui.percentHeightToPx(uiElement, uiOriginalHeight)
+      }
+      else if (initialHeightUnit === "rem") {
+        uiOriginalHeight = webui.remToPx(uiOriginalHeight);
+      }
+    }
+
+    if (settings.paddingTop) { uiElement.animate("padding-top", 1, settings.paddingTop, 0, settings.duration); }
+    if (settings.paddingBottom) { uiElement.animate("padding-bottom", 1, settings.paddingBottom, 0, settings.duration); }
+    if (settings.borderTopWidth) { uiElement.animate("border-top-width", 1, settings.borderTopWidth, 0, settings.duration); }
+    if (settings.borderBottomWidth) { uiElement.animate("border-bottom-width", 1, settings.borderBottomWidth, 0, settings.duration); }
+
+    uiElement.animate("height", 1, (uiTargetHeight - uiOriginalHeight) + "px", uiOriginalHeight, settings.duration, function (el) {
+      
+      if (settings.targetHeight === "auto") {
+        el.css("height", "auto");
+      }
+
+      el.css("overflow", uiOverflow);
+
+      if (args.length === 2 && callback) {
+        callback(el);
+      }
+    });
+
+  }
+  return els;
+};  
+
+fn.expandHorizontal = function (options, callback) {
+  var settings = webui.extend({
+    duration: 300,
+    targetWidth: "auto",
+    initialWidth: null,
+    displayType: "block",
+    paddingLeft: 0,
+    paddingRight: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0
+  }, options),
+  
+  els = this,
+  args = arguments,
+  uiElement, 
+  uiOverflow, 
+  uiOriginalWidth, 
+  uiTargetWidth,
+
+  targetWidthValue = webui.getValueFromCssSize(settings.targetWidth),
+  targetWidthUnit = webui.getUnitFromCssSize(settings.targetWidth),
+  initialWidthValue = webui.getValueFromCssSize(settings.initialWidth),
+  initialWidthUnit = webui.getUnitFromCssSize(settings.initialWidth);
+
+
+  for (var i = 0; i < els.length; i++) {
+    uiElement = webui(els[i]);
+    uiOverflow = uiElement.css("overflow");
+    uiElement.css("display", settings.displayType).css("overflow", "hidden").css("min-width", "0");
+    uiOriginalWidth = parseFloat(uiElement.css("width"));
+    uiOriginalWidth = uiOriginalWidth > 0 ? uiOriginalWidth : els[i].scrollWidth;
+
+
+    if (settings.targetWidth === "auto" || !targetWidthValue) {
+      uiTargetWidth = els[i].scrollWidth + parseFloat(settings.borderTopWidth) + parseFloat(settings.borderBottomWidth);  
+      uiElement.css("width", "0");
+      uiOriginalWidth = 0;
+   
+      var paddingLeftValue = webui.getValueFromCssSize(settings.paddingLeft);
+      if (parseFloat(uiElement.css("padding-left")) < paddingLeftValue) {
+        uiTargetWidth = uiTargetWidth + paddingLeftValue;
+      }
+      var paddingRightValue = webui.getValueFromCssSize(settings.paddingRight);
+      if (parseFloat(uiElement.css("padding-right")) < paddingRightValue) {
+        uiTargetWidth = uiTargetWidth + paddingRightValue;
+      }
+    } 
+    else if (targetWidthValue) {
+      uiTargetWidth = targetWidthValue;
+
+      if (targetWidthUnit === "%") {
+        uiTargetWidth = webui.percentWidthToPx(uiElement, uiTargetWidth)
+      }
+      else if (targetWidthUnit === "rem") {
+        uiTargetWidth = webui.remToPx(uiTargetWidth);
+      }
+      uiElement.css("width", "0");
+      uiOriginalWidth = 0;
+    }
+
+    if (settings.initialWidth !== null) {
+      uiElement.css("width", initialWidthValue + initialWidthUnit);
+      uiOriginalWidth = initialWidthValue;
+    
+      if (initialWidthUnit === "%") {
+        uiOriginalWidth = webui.percentWidthToPx(uiElement, uiOriginalWidth)
+      }
+      else if (initialWidthUnit === "rem") {
+        uiOriginalWidth = webui.remToPx(uiOriginalWidth);
+      }
+    }
+
+    if (settings.paddingLeft) { uiElement.animate("padding-left", 1, settings.paddingLeft, 0, settings.duration); }
+    if (settings.paddingRight) { uiElement.animate("padding-right", 1, settings.paddingRight, 0, settings.duration); }
+    if (settings.borderLeftWidth) { uiElement.animate("border-left-width", 1, settings.borderLeftWidth, 0, settings.duration); }
+    if (settings.borderRightWidth) { uiElement.animate("border-right-width", 1, settings.borderRightWidth, 0, settings.duration); }
+
+    uiElement.animate("width", 1, (uiTargetWidth - uiOriginalWidth) + "px", uiOriginalWidth, settings.duration, function (el) {
+      
+      if (settings.targetWidth === "auto") {
+        el.css("width", "auto");
+      }
+
+      el.css("overflow", uiOverflow);
+
+      if (args.length === 2 && callback) {
+        callback(el);
+      }
+    });
+
+  }
+  return els;
+};
+
+fn.collapseVertical = function (options, callback) {
+  var settings = webui.extend({
+    duration: 300,
+    targetHeight: "auto",
+    paddingTop: 0,
+    paddingBottom: 0,
+    borderTopWidth: 0,
+    borderBottomWidth: 0
+  }, options),
+  
+  els = this,
+  args = arguments,
+  uiElement, 
+  uiOverflow, 
+  uiCurrentHeight, 
+  uiTargetHeight,
+
+  targetHeightValue = webui.getValueFromCssSize(settings.targetHeight),
+  targetHeightUnit = webui.getUnitFromCssSize(settings.targetHeight);
+
+
+  for (var i = 0; i < els.length; i++) {
+    uiElement = webui(els[i]);
+    uiOverflow = uiElement.css("overflow");
+    uiElement.css("overflow", "hidden").css("min-height", "0");
+    uiCurrentHeight = parseFloat(uiElement.css("height"));
+    uiCurrentHeight = uiCurrentHeight > 0 ? uiCurrentHeight : els[i].scrollHeight;
+
+
+    if (settings.targetHeight === "auto") {
+      uiTargetHeight = 0;
+    } 
+    else if (targetHeightValue) {
+      uiTargetHeight = targetHeightValue;
+
+      if (targetHeightUnit === "%") {
+        uiTargetHeight = webui.percentHeightToPx(uiElement, uiTargetHeight)
+      }
+      else if (targetHeightUnit === "rem") {
+        uiTargetHeight = webui.remToPx(uiTargetHeight);
+      }
+    }
+
+    if (settings.paddingTop) { uiElement.animate("padding-top", 0, settings.paddingTop, 0, settings.duration); }
+    if (settings.paddingBottom) { uiElement.animate("padding-bottom", 0, settings.paddingBottom, 0, settings.duration); }
+    if (settings.borderTopWidth) { uiElement.animate("border-top-width", 0, settings.borderTopWidth, 0, settings.duration); }
+    if (settings.borderBottomWidth) { uiElement.animate("border-bottom-width", 0, settings.borderBottomWidth, 0, settings.duration); }
+
+    uiElement.animate("height", 0, (uiCurrentHeight - uiTargetHeight) + "px", uiTargetHeight, settings.duration, function (el) {
+      el.css("overflow", uiOverflow);
+
+      if (!targetHeightValue) {
+        el.css("display", "none");
+      }
+      if (args.length === 2 && callback) {
+        callback(el);
+      }
+    });
+    
+  }
+  return els;
+};
+
+fn.collapseHorizontal = function (options, callback) {
+  var settings = webui.extend({
+    duration: 300,
+    targetWidth: "auto",
+    paddingLeft: 0,
+    paddingRight: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0
+  }, options),
+  
+  els = this,
+  args = arguments,
+  uiElement, 
+  uiOverflow, 
+  uiCurrentWidth, 
+  uiTargetWidth,
+
+  targetWidthValue = webui.getValueFromCssSize(settings.targetWidth),
+  targetWidthUnit = webui.getUnitFromCssSize(settings.targetWidth);
+
+
+  for (var i = 0; i < els.length; i++) {
+    uiElement = webui(els[i]);
+    uiOverflow = uiElement.css("overflow");
+    uiElement.css("overflow", "hidden").css("min-width", "0");
+    uiCurrentWidth = parseFloat(uiElement.css("width"));
+    uiCurrentWidth = uiCurrentWidth > 0 ? uiCurrentWidth : els[i].scrollWidth;
+
+
+    if (settings.targetWidth === "auto") {
+      uiTargetWidth = 0;
+    } 
+    else if (targetWidthValue) {
+      uiTargetWidth = targetWidthValue;
+
+      if (targetWidthUnit === "%") {
+        uiTargetWidth = webui.percentWidthToPx(uiElement, uiTargetWidth)
+      }
+      else if (targetWidthUnit === "rem") {
+        uiTargetWidth = webui.remToPx(uiTargetWidth);
+      }
+    }
+
+    if (settings.paddingLeft) { uiElement.animate("padding-left", 0, settings.paddingLeft, 0, settings.duration); }
+    if (settings.paddingRight) { uiElement.animate("padding-right", 0, settings.paddingRight, 0, settings.duration); }
+    if (settings.borderLeftWidth) { uiElement.animate("border-left-width", 0, settings.borderLeftWidth, 0, settings.duration); }
+    if (settings.borderRightWidth) { uiElement.animate("border-right-width", 0, settings.borderRightWidth, 0, settings.duration); }
+
+    uiElement.animate("width", 0, (uiCurrentWidth - uiTargetWidth) + "px", uiTargetWidth, settings.duration, function (el) {
+      el.css("overflow", uiOverflow);
+
+      if (!targetWidthValue) {
+        el.css("display", "none");
+      }
+      if (args.length === 2 && callback) {
+        callback(el);
+      }
+    });
+    
+  }
+  return els;
+};
+
+fn.fadeIn = function (duration, initialOpacity, callback) {
+  var els = this,
+    args = arguments,
+    uiElement, uiLimitOpacity;
+
+  uiLimitOpacity = args.length > 1 && !isNaN(parseFloat(initialOpacity)) ? initialOpacity : 0;
+
+  for (var i = 0; i < els.length; i++) {
+    uiElement = webui(els[i]);
+    uiElement.css("opacity", "0").css("display", "block");
+
+    uiElement.animate("opacity", 1, 1, uiLimitOpacity, duration, function (el) {
+
+      if (args.length === 3 && callback) {
+        callback(el);
+      }
+    });
+
+  }
+  return els;
+};
+
+fn.fadeOut = function (duration, finalOpacity, callback) {
+  var els = this,
+    args = arguments,
+    uiElement, uiLimitOpacity;
+
+  uiLimitOpacity = finalOpacity && !isNaN(parseFloat(finalOpacity)) ? finalOpacity : 0;
+
+  for (var i = 0; i < els.length; i++) {
+    uiElement = webui(els[i]);
+    if (uiElement.css("display") === "none" || uiElement.css("visibility") === "hidden") {
+      continue;
+    }
+    uiElement.css("opacity", "1");
+
+    uiElement.animate("opacity", 0, 1, uiLimitOpacity, duration, function (el) {
+
+      if (uiLimitOpacity <= 0.01) {
+        el.css("display", "none");
+      }
+      if (args.length === 3 && callback) {
+        callback(el);
+      }
+    });
+
+  }
+  return els;
+};
+
+fn.animate = function (animateWhat, delta, propertyValue, limitValue, duration, callback) {
+  var els = this,
+    args = arguments,
+    pv = propertyValue ? webui.getValueFromCssSize(propertyValue) : 0,
+    pu = animateWhat !== "opacity" ? propertyValue ? webui.getUnitFromCssSize(propertyValue) : "px" : "",
+    lv = limitValue ? webui.getValueFromCssSize(limitValue) : 0,
+    timeFraction = null, progress = null;
+
+  var start = performance.now();
+
+  requestAnimationFrame(function animate(time) {
+    if (delta === 1) {
+      timeFraction = (time - start) / duration;
+    } else {
+      timeFraction = 1 - (time - start) / duration;
+    }
+
+    if (timeFraction < 0) timeFraction = 0;
+    if (timeFraction > 1) timeFraction = 1;
+
+    progress = timeFraction;
+    els.css(animateWhat, (progress * pv) + lv + pu);
+
+    if (delta === 1) {
+      if (timeFraction < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        if (args.length === 6 && callback) { 
+          callback(els); 
+        }
+      }
+    } else {
+      if (timeFraction > 0) {
+        requestAnimationFrame(animate);
+      } else {
+        if (args.length === 6 && callback) { 
+          callback(els); 
+        }
+      }
+    }
+  });
+  return els;
+};
+
+
 /* NON-CHAINABLE FUNCTIONS */
 
-webui.getGuid = function () {
+webui.getGuid = () => {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
       let r = Math.random() * 16 | 0, v = c === "x" ? r : r & 3 | 8;
       return v.toString(16);
@@ -1544,11 +2011,11 @@ webui.getGuid = function () {
 webui.sum = (...args) => args.reduce((total, num) => total + num, 0);
 
 
-webui.elementHoverAt = function (x, y) {
+webui.elementHoverAt = (x, y) => {
   return webui(document.elementFromPoint(x, y));
 };
 
-webui.calculatePointerSpeed = function (event, previousEvent) {
+webui.calculatePointerSpeed = (event, previousEvent) => {
   let 
     x = event.clientX,
     y = event.clientY,
@@ -1580,28 +2047,27 @@ webui.calculatePointerSpeed = function (event, previousEvent) {
   return velocity;
 };
 
-webui.pxToRem = function (pxValue) {
+webui.pxToRem = (pxValue) => {
   let el = document.getElementsByTagName("html")[0];
   return parseFloat(pxValue) / parseFloat(window.getComputedStyle(el)["fontSize"]);
 };
 
-webui.remToPx = function (remValue) {
+webui.remToPx = (remValue) => {
   let el = document.getElementsByTagName("html")[0];
   return parseFloat(window.getComputedStyle(el)["fontSize"]) * parseFloat(remValue);
 };
 
-webui.percentHeightToPx = function (element, percentValue) {
+webui.percentHeightToPx = (element, percentValue) => {
   return parseFloat(element.parent().css("height")) / 100 * percentValue;
 };
 
-webui.percentWidthToPx = function (element, percentValue) {
+webui.percentWidthToPx = (element, percentValue) => {
   return parseFloat(element.parent().css("width")) / 100 * percentValue;
 };
 
-webui.getStyleValue = function (propertyName) {
-  let args = arguments;
+webui.getStyleValue = (propertyName) => {
 
-  if (args.length === 1) {
+  if (propertyName) {
     let styles = getComputedStyle(document.documentElement);
     let value = styles.getPropertyValue(propertyName); 
     
@@ -1610,7 +2076,7 @@ webui.getStyleValue = function (propertyName) {
   return undefined;
 }
 
-webui.getValueFromCssSize = function (cssSize) {
+webui.getValueFromCssSize = (cssSize) => {
   if (cssSize && isString(cssSize)) {
     let value = parseFloat(cssSize.replace(/[^0-9.]+/gi, ""));	
     return !isNaN(value) ? value : 0;	
@@ -1622,7 +2088,7 @@ webui.getValueFromCssSize = function (cssSize) {
   return 0;
 };
 
-webui.getUnitFromCssSize = function (cssSize) {
+webui.getUnitFromCssSize = (cssSize) => {
   if (cssSize && isString(cssSize)) {
     let value = cssSize.replace(/[^a-z%]+/gi, "");	
     return value.length ? value : "px";		
@@ -1630,7 +2096,7 @@ webui.getUnitFromCssSize = function (cssSize) {
   return "px";
 };
 
-webui.getAvgWidth = function (elements) {
+webui.getAvgWidth = (elements) => {
   const els = webui(elements);
 
   if (els && els.length) {
@@ -1644,7 +2110,7 @@ webui.getAvgWidth = function (elements) {
   return undefined;
 };
 
-webui.getAvgHeight = function (elements) {
+webui.getAvgHeight = (elements) => {
   const els = webui(elements);
 
   if (els && els.length) {
@@ -1658,7 +2124,7 @@ webui.getAvgHeight = function (elements) {
   return undefined;
 };
 
-webui.getMaxWidth = function (elements) {
+webui.getMaxWidth = (elements) => {
   const els = webui(elements);
 
   if (els && els.length) {
@@ -1675,7 +2141,7 @@ webui.getMaxWidth = function (elements) {
   return undefined;
 };
 
-webui.getMaxHeight = function (elements) {
+webui.getMaxHeight = (elements) => {
   const els = webui(elements);
 
   if (els && els.length) {
@@ -1695,14 +2161,14 @@ webui.getMaxHeight = function (elements) {
 webui.getScrollbarWidth = () => window.innerWidth - document.documentElement.clientWidth;
 
 
-webui.rgbToHex = function (r, g, b) {
+webui.rgbToHex = (r, g, b) => {
   if ((!isNaN(r) && r > -1 && r < 256) && (!isNaN(g) && g > -1 && g < 256) && (!isNaN(b) && b > -1 && b < 256)) {
     return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
   }
   return undefined;
 };
 
-webui.rgbStringToHex = function (rgb) {
+webui.rgbStringToHex = (rgb) => {
   let rgbValues = rgb.replace(/[^\d,]/g, '').split(',');
   rgbValues = rgbValues.slice(0, 3);
   if (rgbValues && rgbValues.length === 3) {
@@ -1711,7 +2177,7 @@ webui.rgbStringToHex = function (rgb) {
   return undefined;
 };
 
-webui.getAccessibilityContrastColor = function (hexColor) {
+webui.getAccessibilityContrastColor = (hexColor) => {
   if (hexColor.indexOf("#") === 0) {
     hexColor = hexColor.slice(1);
   }
@@ -1725,8 +2191,9 @@ webui.getAccessibilityContrastColor = function (hexColor) {
   return undefined;
 };
 
-webui.getColorShade = function (hexColor, rgbValue) {
-  if (arguments.length === 2) {
+webui.getColorShade = (hexColor, rgbValue) => {
+
+  if (hexColor && rgbValue) {
     if ((hexColor.length === 6 || hexColor.length === 7) && !isNaN(rgbValue)) {
       let hasHash = false;
       if (hexColor[0] === "#") {
@@ -1757,6 +2224,38 @@ webui.getColorShade = function (hexColor, rgbValue) {
   }
   return undefined;
 };
+
+webui.isWindowInBreakPointRange = (breakPointRange) => {
+
+  let mediaWidth = webui.pxToRem(window.innerWidth);
+  let min = 0;
+  let max = 0;
+  let margin = 0.01; //0.063;
+
+  if (breakPointRange && breakPointRange.length === 2) {
+    switch (breakPointRange[0]) {
+      case 1: min = parseFloat(webui.getStyleValue("--breakpoint-sm")); break;
+      case 2: min = parseFloat(webui.getStyleValue("--breakpoint-md")); break;
+      case 3: min = parseFloat(webui.getStyleValue("--breakpoint-lg")); break;
+      case 4: min = parseFloat(webui.getStyleValue("--breakpoint-xl")); break;
+      case 5: min = parseFloat(webui.getStyleValue("--breakpoint-2xl")); break;
+      default: min = 0; break;
+    }
+    switch (breakPointRange[1]) {
+      case 1: max = parseFloat(webui.getStyleValue("--breakpoint-sm")) - margin; break;
+      case 2: max = parseFloat(webui.getStyleValue("--breakpoint-md")) - margin; break;
+      case 3: max = parseFloat(webui.getStyleValue("--breakpoint-lg")) - margin; break;
+      case 4: max = parseFloat(webui.getStyleValue("--breakpoint-xl")) - margin; break;
+      case 5: max = parseFloat(webui.getStyleValue("--breakpoint-2xl")) - margin; break;
+      default: max = 0; break;
+    }
+  }
+  if (mediaWidth >= min && mediaWidth <= max || mediaWidth >= min && max === 0) {
+    return true;
+  }
+  return false;
+};
+
 
 webui.getElementViewportStatus = function (selector, requiredMargin) {
   let args = arguments,
@@ -1826,7 +2325,7 @@ webui.getSelectedContent = function (targetSelector, focusTargetSelector, includ
   return undefined;
 };
 
-webui.copyTextToClipboard = function(textToCopy) {
+webui.copyTextToClipboard = (textToCopy) => {
   if (navigator?.clipboard?.writeText) {
     return navigator.clipboard.writeText(textToCopy);
   }
@@ -1875,7 +2374,7 @@ webui.limitWords = function (text, wordCount, addEllipsis) {
   return text;
 };
 
-webui.getCookie = function (name) {
+webui.getCookie = (name) => {
   try {
     let start = document.cookie.indexOf(name + "=");
     let len = start + name.length + 1;
@@ -1896,7 +2395,7 @@ webui.getCookie = function (name) {
   }
 };
 
-webui.setCookie = function (name, value, expires, path, domain, secure) {
+webui.setCookie = (name, value, expires, path, domain, secure) => {
   try {
     let today = new Date();
     today.setTime(today.getTime());
@@ -1912,7 +2411,7 @@ webui.setCookie = function (name, value, expires, path, domain, secure) {
   }
 };
 
-webui.deleteCookie = function (name, path, domain) {
+webui.deleteCookie = (name, path, domain) => {
   try {
     if (ui.getCookie(name)) {
       document.cookie = name + "=" + (path ? ";path=" + path : "") + (domain ? ";domain=" + domain : "") + ";expires=Thu, 01-Jan-1970 00:00:01 GMT";
@@ -2172,8 +2671,37 @@ webui.off = (name, callback) => {
   document.removeEventListener(name, callback);
 };
 
+webui.breakpointChange = (callback) => {
 
-webui.ready = function (callback, waitForComplete) { 
+  let margin = 0.01;
+  let sm = parseFloat(webui.getStyleValue("--breakpoint-sm")),
+      md = parseFloat(webui.getStyleValue("--breakpoint-md")),
+      lg = parseFloat(webui.getStyleValue("--breakpoint-lg")),
+      xl = parseFloat(webui.getStyleValue("--breakpoint-xl")),
+      xxl = parseFloat(webui.getStyleValue("--breakpoint-2xl"))
+
+  let mlq1 = window.matchMedia("(max-width: " + (sm - margin) + "rem)");
+  mlq1.onchange = (e) => { if (e.matches) { callback(); }}
+
+  let mlq2 = window.matchMedia("(min-width: " + sm + "rem) and (max-width: " + (md - margin) + "rem)");
+  mlq2.onchange = (e) => { if (e.matches) { callback(); }}
+
+  let mlq3 = window.matchMedia("(min-width: " + md + "rem) and (max-width: " + (lg - margin) + "rem)");
+  mlq3.onchange = (e) => { if (e.matches) { callback(); }}
+
+  let mlq4 = window.matchMedia("(min-width: " + lg + "rem) and (max-width: " + (xl - margin) + "rem)");
+  mlq4.onchange = (e) => { if (e.matches) { callback(); }}
+
+  let mlq5 = window.matchMedia("(min-width: " + xl + "rem) and (max-width: " + (xxl - margin) + "rem)");
+  mlq5.onchange = (e) => { if (e.matches) { callback(); }}
+
+  let mlq6 = window.matchMedia("(min-width: " + xxl + "rem)");
+  mlq6.onchange = (e) => { if (e.matches) { callback(); }}
+
+  return;
+};
+
+webui.ready = (callback, waitForComplete) => { 
 
   if (waitForComplete) {
       if (document.readyState === "complete") {

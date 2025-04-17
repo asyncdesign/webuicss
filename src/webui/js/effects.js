@@ -3,7 +3,7 @@ import webui from '@asyncdesign/webui';
 
 export const zoom = (selector, options) => {
 
-  var settings = webui.extend({
+  let settings = webui.extend({
     zoomFactor: 1.1,
     trigger: "hover",
     transitionDuration: 300,
@@ -12,11 +12,11 @@ export const zoom = (selector, options) => {
   }, options);
 
 
-  var controls = webui(selector);
+  let controls = webui(selector);
 
-  for (var i = 0; i < controls.length; i++) {
+  for (let i = 0; i < controls.length; i++) {
 
-    var control = webui(controls[i]);
+    let control = webui(controls[i]);
     
     control.css("transition", "all " + settings.transitionDuration / 1e3 + "s ease-in");
 

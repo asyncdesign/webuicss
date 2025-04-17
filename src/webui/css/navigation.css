@@ -1,0 +1,265 @@
+
+/* Navbar */
+.nav {
+  width: 100%;
+  height: 2.725rem;
+  z-index: 130;
+}
+.nav *:not(.nav-component *) {
+  line-height: 2.725rem;
+}
+.nav .nav-item, .nav .nav-component {
+  height: 2.725rem;
+}
+.nav .nav-sub-menu.text-normal *, .nav .nav-sub-menu .text-normal *, .nav .nav-sub-menu.nav-content *, .nav .nav-sub-menu .nav-content * {
+  line-height: normal;
+}
+.nav .nav-sub-menu.text *, .nav .nav-sub-menu .text * {
+  line-height: 1.7rem;
+}
+.nav .nav-sub-menu.text-readable *, .nav .nav-sub-menu .text-readable * {
+  line-height: 1.5rem;
+}
+
+.nav-menu {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  background-color: inherit;
+  border-radius: inherit;
+  color: inherit;
+  z-index: inherit;
+}
+.nav-menu > .nav-logo {
+  background-color: inherit;
+  color: inherit;
+  margin-left: 0.25rem;
+  z-index: inherit;
+}
+.nav-menu > .nav-item {
+  order: 3;
+  width: 100%;
+  display: none;
+  position: relative;
+  height: auto;
+  padding: 0 1rem;
+  z-index: inherit;
+}
+.nav-menu > .nav-item.active {
+  display: block;
+}
+.nav-menu > .nav-item > a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.nav-menu > .nav-item:not(.nav-sub-menu > .nav-item) {
+  background-color: inherit;
+  color: inherit;
+}
+.nav-menu > .nav-component {
+  order: 2;
+  width: 100%;
+  display: none;
+  padding: 0 1rem;
+  z-index: inherit;
+}
+.nav-menu > .nav-component.active {
+  display: block;
+}
+.nav-menu > .nav-component:not(.nav-sub-menu > .nav-component) {
+  background-color: inherit;
+  color: inherit;
+}
+.nav-menu > .nav-toggle {
+  order: 1;
+  z-index: inherit;
+}
+.nav-menu > .nav-item > .nav-sub-menu {
+  position: relative;
+  list-style-type: none;
+  padding: 0 1rem;
+  background-color: inherit;
+  color: inherit;
+  display: none;
+}
+.nav-menu > .nav-item > .nav-sub-menu > .nav-item {
+  display: block;
+}
+.nav-menu > .nav-item > .nav-sub-menu > .nav-item > a {
+  color: inherit;
+  text-decoration: none;
+}
+.nav-menu > .nav-item > .nav-sub-menu > .nav-component {
+  display: flex;
+  align-items: center;
+}
+
+.md-device.nav-menu {
+  justify-content: center;
+}
+.md-device.nav-menu > .nav-logo {
+  flex: 1;
+}
+.md-device.nav-menu > .nav-item {
+  padding: 0 1rem;
+}
+.md-device.nav-menu > .nav-component {
+  order: 1;
+  width: auto;
+  padding: 0 0.5rem;
+  display: block;
+}
+
+.md-device.nav-menu > .nav-toggle {
+  order: 2;
+}
+.lg-device.nav-menu {
+  justify-content: center;
+}
+.lg-device.nav-menu > .nav-logo {
+  order: 0;
+  flex: 1;
+}
+.lg-device.nav-menu > .nav-item {
+  order: 1;
+  width: auto;
+  display: block;
+  position: unset;
+  padding: 0 1rem;
+}
+.lg-device.nav-menu > .nav-item > .nav-sub-menu {
+  position: absolute;
+  padding: 0 2rem;
+}
+.lg-device.nav-menu > .nav-item > .nav-sub-menu > .nav-item:first-of-type {
+  margin-top: 0.5rem;
+}
+.lg-device.nav-menu > .nav-component {
+  order: 2;
+  width: auto;
+  display: block;
+}
+.lg-device.nav-menu > .nav-toggle {
+  display: none;
+}
+
+
+/* Nav Button */
+
+.nav-button-sm {
+  position: relative;
+  width: 2.475rem;
+  height: 2.475rem;
+}
+.nav-button-sm .nav-button-item {
+  position: absolute;
+  right: 10px;
+  width: 19px;
+  height: 2px;
+}
+
+.nav-button-lg {
+  position: relative;
+  width: 2.825rem;
+  height: 2.825rem;
+}
+.nav-button-lg .nav-button-item {
+  position: absolute;
+  right: 10px;
+  width: 24px;
+  height: 2px;
+}
+
+.nav-button-sm .nav-button-item:nth-child(1) {
+  top: 11px;
+}
+.nav-button-sm .nav-button-item:nth-child(2) {
+  top: 18px;
+}
+.nav-button-sm .nav-button-item:nth-child(3) {
+  top: 25px;
+}
+
+.nav-button-sm.active .nav-button-item:nth-child(1) {
+  top: 18px;
+  transform: rotate(45deg);
+}
+.nav-button-sm.active .nav-button-item:nth-child(2) {
+  width: 0;
+}
+.nav-button-sm.active .nav-button-item:nth-child(3) {
+  top: 18px;
+  transform: rotate(-45deg);
+}
+
+.nav-button-lg .nav-button-item:nth-child(1) {
+  top: 14px;
+}
+.nav-button-lg .nav-button-item:nth-child(2) {
+  top: 21px;
+}
+.nav-button-lg .nav-button-item:nth-child(3) {
+  top: 28px;
+}
+
+.nav-button-lg.active .nav-button-item:nth-child(1) {
+  top: 21px;
+  transform: rotate(45deg);
+}
+.nav-button-lg.active .nav-button-item:nth-child(2) {
+  width: 0;
+}
+.nav-button-lg.active .nav-button-item:nth-child(3) {
+  top: 21px;
+  transform: rotate(-45deg);
+}
+
+/* Nav Indicator */
+
+*[class*=nav-indicator] {
+  position: relative;
+}
+*[class*=nav-indicator] .indicator-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  transform-origin: center;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.nav-indicator-left .indicator-item {
+  transform: rotate(-90deg);
+}
+
+.nav-indicator-right .indicator-item {
+  transform: rotate(90deg);
+}
+
+.nav-indicator-up .indicator-item {
+  transform: rotate(180deg);
+}
+
+.nav-indicator.active .indicator-item {
+  transform: rotate(180deg);
+}
+
+.nav-indicator-left.active .indicator-item {
+  transform: rotate(90deg);
+}
+
+.nav-indicator-right.active .indicator-item {
+  transform: rotate(-90deg);
+}
+
+.nav-indicator-up.active .indicator-item {
+  transform: rotate(0deg);
+}

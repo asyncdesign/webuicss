@@ -7,9 +7,9 @@
   <title>Document</title>
 
 </head>
-<body class="dark accessibility flex justify-center">
+<body class="dark accessibility flex justify-center text-sm">
 
-  <div class="w-10/12 lg:w-6/12">
+  <div class="w-11/12 sm:w-10/12 md:w-9/12 lg:w-8/12 xl:w-7/12">
     
     <div class="flex justify-center mt-5 mb-5">
       <img src="./src/assets/images/webuicss-logo-mid-blue.png" width="300" height="75" alt="Media" class="zoom-image" />
@@ -19,81 +19,144 @@
 
     <p class="text-center mb-10" id="#subText">vite + tailwindcss</p>
 
-    <div class="flex mb-5">
-      <b>Model and Data Binding:</b>
-    </div>
-
-    <div class="grid gap-2 mb-5">
-      <div class="flex items-center">
-        <label for="firstName" class="w-1/4">First Name</label>
-        <input type="text" id="firstName" class="input-sm rounded-sm" data-model="firstName" />
-      </div>
-      <div class="flex items-center">
-        <label class="w-1/4">Binding:</label>
-        <div data-bind="firstName"></div>
-      </div>
-    </div>
-
-    <div class="grid gap-2 mb-10">
-      <div class="flex items-center">
-        <label for="lastName" class="w-1/4">Last Name</label>
-        <input type="text" id="lastName" class="input-sm rounded-sm" data-model="lastName" />
-      </div>
-      <div class="flex items-center">
-        <label class="w-1/4">Binding:</label>
-        <div data-bind="lastName"></div>
-      </div>
-    </div>
-
-
-    <div class="flex mb-5">
-      <b>Signals:</b>
-    </div>
-
-    <div class="grid gap-2 mb-10">
-      <div class="flex items-center">
-        <label class="w-1/4">Signal:</label>
-        <button class="button rounded-sm" id="btnCount">0</button>
-        <div class="w-1/4"></div>
-        <label class="w-1/4">Computed:</label>
-        <div id="computed"></div>
-      </div>     
-    </div>
-    
-    <div class="flex mb-5">
-      <b>Form Utilities:</b>
-    </div>
 
     <div class="mb-5">
-      <form class="grid grid-cols-2 gap-2">
-        <!-- First Name -->
-        <div class="col-span-2 flex items-center">
-          <label for="fname" class="w-1/4">First name:</label>
-          <input type="text" id="fname" name="fname" value="" class="input-sm rounded-sm" data-model="fname">
-        </div>
       
-        <!-- Last Name -->
-        <div class="col-span-2 flex items-center">
-          <label for="lname" class="w-1/4">Last name:</label>
-          <input type="text" id="lname" name="lname" value="" class="input-sm rounded-sm" data-model="lname">
-        </div>
+      <nav class="nav bg-neutral-700 text-white rounded-md" id="navbar1">
+
+        <div class="nav-menu">
       
-        <!-- Address -->
-        <div class="col-span-2 flex items-center">
-          <label for="address" class="w-1/4">Address:</label>
-          <input type="text" id="address" name="address" value="" class="input-sm rounded-sm flex-grow" data-model="address">
-        </div>
+          <div class="nav-logo pl-4 pr-4">Your Logo</div>
       
-        <!-- Submit Button -->
-        <div class="col-span-2 flex justify-end">
-          <input type="submit" value="Submit" class="button-sm rounded-sm">
-        </div>
-      </form>    
+          <div class="nav-item">
+            <button class="menu-button rounded-sm text-left nav-activator">Menu 1</button>
+            <div class="nav-sub-menu accessibility-group">
+              <div class="nav-item"><a href="#0" class="menu-button rounded-sm">Sub Menu Item 1</a></div>
+              <div class="nav-item"><a href="#0" class="menu-button rounded-sm">Sub Menu Item 2</a></div>
+              <div class="nav-item"><a href="#0" class="menu-button rounded-sm">Sub Menu Item 3</a></div>
+              <div class="nav-item"><a href="#0" class="menu-button rounded-sm">Sub Menu Item 4</a></div>
+            </div>
+          </div>
+          <div class="nav-item">
+            <button class="menu-button rounded-sm text-left nav-activator">Menu 2</button>
+            <div class="nav-sub-menu accessibility-group">
+              <div class="nav-item"><a href="#0" class="menu-button rounded-sm">Sub Menu Item 1</a></div>
+              <div class="nav-item"><a href="#0" class="menu-button rounded-sm">Sub Menu Item 2</a></div>
+              <div class="nav-item"><a href="#0" class="menu-button rounded-sm">Sub Menu Item 3</a></div>
+              <div class="nav-item"><a href="#0" class="menu-button rounded-sm">Sub Menu Item 4</a></div>
+            </div>
+          </div>
+          <div class="nav-item">
+            <button class="menu-button rounded-sm text-left nav-activator">Very Long Navbar Menu Text</button>
+            <div class="nav-sub-menu accessibility-group">
+              <div class="nav-item"><a href="#0" class="menu-button rounded-sm">Very long navbar sub menu text can be added.</a></div>
+              <div class="nav-item"><a href="#0" class="menu-button rounded-sm">Sub Menu Item 2</a></div>
+              <div class="nav-item"><a href="#0" class="menu-button rounded-sm">Sub Menu Item 3</a></div>
+              <div class="nav-item"><a href="#0" class="menu-button rounded-sm">Sub Menu Item 4</a></div>
+            </div>
+          </div>
+
+          <div class="nav-component">
+            <div class="flex items-center justify-end gap-x-4">
+              <label>Dark theme</label>
+              <div class="toggle-switch darklight success">	
+                <input type="checkbox" value="1" id="check-switch-4" />
+                <label for="check-switch-4" class="rounded-full">
+                  <div class="toggle-switch-button transition"></div>
+                </label>
+              </div>
+            </div>
+          </div>
+      
+      
+          <div class="nav-toggle pr-2">
+            <div class="nav-button-sm" id="navToggle1"></div>
+          </div>
+          
+        </div> 
+      </nav>
+
     </div>
 
-    <div class="mb-10">
-      <label for="address">Form Data: </label><br>
-      <textarea class="control h-20 w-full rounded-sm" data-bind="data"></textarea>
+    <div class="p-4">
+
+      <div class="flex mb-3">
+        <b>Model and Data Binding:</b>
+      </div>
+
+      <div class="grid gap-2 mb-5">
+        <div class="flex items-center">
+          <label for="firstName" class="w-1/4">First Name</label>
+          <input type="text" id="firstName" class="input-md rounded-sm" data-model="firstName" />
+        </div>
+        <div class="flex items-center">
+          <label class="w-1/4">Binding:</label>
+          <div data-bind="firstName"></div>
+        </div>
+      </div>
+
+      <div class="grid gap-2 mb-10">
+        <div class="flex items-center">
+          <label for="lastName" class="w-1/4">Last Name</label>
+          <input type="text" id="lastName" class="input-md rounded-sm" data-model="lastName" />
+        </div>
+        <div class="flex items-center">
+          <label class="w-1/4">Binding:</label>
+          <div data-bind="lastName"></div>
+        </div>
+      </div>
+
+
+      <div class="flex mb-3">
+        <b>Signals:</b>
+      </div>
+
+      <div class="grid gap-2 mb-10">
+        <div class="flex items-center">
+          <label class="w-1/4">Signal:</label>
+          <button class="button-sm rounded-sm success" id="btnCount">0</button>
+          <div class="w-1/4"></div>
+          <label class="w-1/4">Computed:</label>
+          <div id="computed"></div>
+        </div>     
+      </div>
+      
+      <div class="flex mb-3">
+        <b>Form Utilities:</b>
+      </div>
+
+      <div class="mb-5">
+        <form class="grid grid-cols-2 gap-2">
+          <!-- First Name -->
+          <div class="col-span-2 flex items-center">
+            <label for="fname" class="w-1/4">First name:</label>
+            <input type="text" id="fname" name="fname" value="" class="input-md rounded-sm" data-model="fname">
+          </div>
+        
+          <!-- Last Name -->
+          <div class="col-span-2 flex items-center">
+            <label for="lname" class="w-1/4">Last name:</label>
+            <input type="text" id="lname" name="lname" value="" class="input-md rounded-sm" data-model="lname">
+          </div>
+        
+          <!-- Address -->
+          <div class="col-span-2 flex items-center">
+            <label for="address" class="w-1/4">Address:</label>
+            <input type="text" id="address" name="address" value="" class="input-md rounded-sm flex-grow" data-model="address">
+          </div>
+        
+          <!-- Submit Button -->
+          <div class="col-span-2 flex justify-end">
+            <input type="submit" value="Submit" class="button-sm rounded-sm success">
+          </div>
+        </form>    
+      </div>
+
+      <div>
+        <label for="address">Form Data: </label><br>
+        <textarea class="h-20 w-full rounded-sm control" data-bind="data"></textarea>
+      </div>
+
     </div>
 
   </div>
@@ -102,62 +165,96 @@
   <script type="module">
 
     import webui from "@asyncdesign/webui";
-    import { zoom } from "@asyncdesign/zoom";
-    import { navIndicator } from "@asyncdesign/nav-indicator";
+    import { zoom } from "@asyncdesign/effects";
+    import { navBar, navButton, navIndicator } from "@asyncdesign/navigation";  
+
     
+    webui.ready( () => {
 
-    const zoomImage = zoom (".zoom-image", { 
-      zoomFactor: 1.2,
-      trigger: "hover",
-      transitionDuration: 300,
-      zoomInCallback: null,
-      zoomOutCallback: null
-    });
-
-
-    let count = webui.signal(0)
-
-    const btn = webui("#btnCount").click(() => count.value++)
-
-    webui.watch(() => {
-      btn.text(count.value)
-    })
-
-    let double = webui.computed(() => count.value * 2)
-
-    webui.watch(() => {
-      webui("#computed").text(double.value)
-    })
-
-
-    webui.bind({
-      firstName: "",
-      lastName: ""
-    });
-
-
-    const formData = new Object();
-
-    formData.fname = "";
-    formData.lname = "";
-    formData.address = "";
-
-    webui.bind(formData);
-
-
-    let data = webui.signal("");
-
-    webui.watch(() => {
-      webui("textarea").val(data.value)
-    })
-
-
-    webui("form").submit((e) => {
-      e.preventDefault();
       
-      data.value = webui.getJsonFormData("form");
-    });
+      let subMenuBgColor = webui.getStyleValue("--color-neutral-700");
+      
+      const navBar1 = navBar("#navbar1", { 
+        transitionDuration: 300,
+        smallDeviceMenuSpacing: "0.2rem",
+        smallDeviceSubMenuPadding: "1rem",
+        smallDeviceSubMenuGap: "1rem",
+        smallDeviceSubMenuBackground: subMenuBgColor,
+        mediumDeviceMenuSpacing: "0.2rem",
+        mediumDeviceSubMenuPadding: "1rem",
+        mediumDeviceSubMenuGap: "1rem",
+        mediumDeviceSubMenuBackground: subMenuBgColor,
+        largeDeviceSubMenuPadding: "0.5rem 1rem",	
+        largeDeviceMenuSpacing: "0",
+        largeDeviceMenuOffset: "0.5rem",
+        largeDeviceSubMenuOffset: "0",
+        largeDeviceSubMenuReverse: false,
+        largeDeviceSubMenuGap: "2px",
+        //largeDeviceSubMenuBackground: subMenuBgColor
+      });
+      
 
+      const navButton1 = navButton("#navToggle1", {
+        transitionDuration: 300, 
+        backgroundColor: "transparent", 
+        color: "#FFF"
+      });
+      
+
+
+      const zoom1 = zoom(".zoom-image", { 
+        zoomFactor: 1.2,
+        trigger: "hover",
+        transitionDuration: 300,
+        zoomInCallback: null,
+        zoomOutCallback: null
+      });
+
+
+      let count = webui.signal(0)
+
+      const btn = webui("#btnCount").click(() => count.value++)
+
+      webui.watch(() => {
+        btn.text(count.value)
+      })
+
+      let sqrt = webui.computed(() => Math.sqrt(count.value))
+
+      webui.watch(() => {
+        webui("#computed").text(sqrt.value)
+      })
+
+
+      webui.bind({
+        firstName: "",
+        lastName: ""
+      });
+
+
+      const formData = new Object();
+
+      formData.fname = "";
+      formData.lname = "";
+      formData.address = "";
+
+      webui.bind(formData);
+
+
+      let data = webui.signal("");
+
+      webui.watch(() => {
+        webui("textarea").val(data.value)
+      })
+
+
+      webui("form").submit((e) => {
+        e.preventDefault();
+        
+        data.value = webui.getJsonFormData("form");
+      });
+
+    });
 
   </script>
   

@@ -21,7 +21,7 @@
   --input-background-focus: var(--color-neutral-100);
 
   --control-text: var(--color-white);
-  --control-border: var(--color-sky-600);
+  --control-border: var(--color-sky-700);
   --control-background: var(--color-sky-700);
   --control-background-secondary: var(--color-sky-900);
   --control-background-inactive: var(--color-sky-600);
@@ -54,7 +54,7 @@
   --input-background-success-focus: var(--color-green-50);
 
   --control-text-success: var(--color-white);
-  --control-border-success: var(--color-green-500);
+  --control-border-success: var(--color-green-600);
   --control-background-success: var(--color-green-600);
   --control-background-secondary-success: var(--color-green-700);
   --control-background-inactive-success: var(--color-green-500);
@@ -78,7 +78,7 @@
   --input-background-warning-focus: var(--color-amber-50);
 
   --control-text-warning: var(--color-white);
-  --control-border-warning: var(--color-amber-500);
+  --control-border-warning: var(--color-amber-600);
   --control-background-warning: var(--color-amber-600);
   --control-background-secondary-warning: var(--color-amber-700);
   --control-background-inactive-warning: var(--color-amber-500);
@@ -102,7 +102,7 @@
   --input-background-danger-focus: var(--color-red-50);
 
   --control-text-danger: var(--color-white);
-  --control-border-danger: var(--color-red-500);
+  --control-border-danger: var(--color-red-600);
   --control-background-danger: var(--color-red-600);
   --control-background-secondary-danger: var(--color-red-700);
   --control-background-inactive-danger: var(--color-red-500);
@@ -137,14 +137,14 @@
   --input-background-focus: var(--color-neutral-500);
 
   --control-text: var(--color-white);
-  --control-border: var(--color-neutral-600);
+  --control-border: var(--color-neutral-700);
   --control-background: var(--color-neutral-700);
-  --control-background-secondary: var(--color-neutral-900);
+  --control-background-secondary: var(--color-neutral-800);
   --control-background-inactive: var(--color-neutral-600);
   --control-background-inactive-secondary: var(--color-neutral-700);
   --control-background-hover: var(--color-neutral-500);
   --control-background-focus: var(--color-neutral-500);
-  --control-background-active: var(--color-neutral-900);
+  --control-background-active: var(--color-neutral-800);
 
   --data-text: var(--color-white);
   --data-border: var(--color-neutral-400);
@@ -163,6 +163,7 @@
 
 
 @theme {
+
 
 
 }
