@@ -1,298 +1,258 @@
 import webui from '@asyncdesign/webui';
 import '@asyncdesign-css/navigation.css';
 
-const NavbarInstance = function (navbar, settings) {
+const NavbarInstance = (navbar, defaultOptions) => {
 
-	let
-		transitionDuration = settings.transitionDuration,
+	const settings = defaultOptions;
 
-		smallDeviceMenuReverse = settings.smallDeviceMenuReverse,
-		smallDeviceSubMenuPadding = settings.smallDeviceSubMenuPadding,
-		smallDeviceSubMenuGap = settings.smallDeviceSubMenuGap,
-		smallDeviceMenuSpacing = settings.smallDeviceMenuSpacing,
+	const navMenu = navbar.children(".nav-menu").first();
 
-		mediumDeviceMenuReverse = settings.mediumDeviceMenuReverse,
-		mediumDeviceSubMenuPadding = settings.mediumDeviceSubMenuPadding,
-		mediumDeviceSubMenuGap = settings.mediumDeviceSubMenuGap,
-		mediumDeviceMenuSpacing = settings.mediumDeviceMenuSpacing,
+	const navLogo = navMenu.find(".nav-logo").first();
+	const navItems = navMenu.children(".nav-item");
+	const navComponents = navMenu.children(".nav-component");
+	const navToggle = navMenu.children(".nav-toggle");
+	const navToggler = navToggle.find("[class*='nav-toggler']").first();
 
-		largeDeviceMenuReverse = settings.largeDeviceMenuReverse,
-		largeDeviceSubMenuPadding = settings.largeDeviceSubMenuPadding,
-		largeDeviceSubMenuGap = settings.largeDeviceSubMenuGap,
-		largeDeviceMenuSpacing = settings.largeDeviceMenuSpacing,
-		largeDeviceMenuOffset = settings.largeDeviceMenuOffset,
-		largeDeviceSubMenuOffset = settings.largeDeviceSubMenuOffset,
-		largeDeviceSubMenuReverse = settings.largeDeviceSubMenuReverse,
+	const navActivators = navMenu.find(".nav-activator");
 
-		smallDeviceLogoColor = settings.smallDeviceLogoColor,
-		smallDeviceLogoBackground = settings.smallDeviceLogoBackground,
-		smallDeviceMenuColor = settings.smallDeviceMenuColor,
-		smallDeviceMenuBackground = settings.smallDeviceMenuBackground,
-		smallDeviceSubMenuColor = settings.smallDeviceSubMenuColor,
-		smallDeviceSubMenuBackground = settings.smallDeviceSubMenuBackground,
-
-		mediumDeviceLogoColor = settings.mediumDeviceLogoColor,
-		mediumDeviceLogoBackground = settings.mediumDeviceLogoBackground,
-		mediumDeviceMenuColor = settings.mediumDeviceMenuColor,
-		mediumDeviceMenuBackground = settings.mediumDeviceMenuBackground,
-		mediumDeviceSubMenuColor = settings.mediumDeviceSubMenuColor,
-		mediumDeviceSubMenuBackground = settings.mediumDeviceSubMenuBackground,
-
-		largeDeviceLogoColor = settings.largeDeviceLogoColor,
-		largeDeviceLogoBackground = settings.largeDeviceLogoBackground,
-		largeDeviceMenuColor = settings.largeDeviceMenuColor,
-		largeDeviceMenuBackground = settings.largeDeviceMenuBackground,
-		largeDeviceSubMenuColor = settings.largeDeviceSubMenuColor,
-		largeDeviceSubMenuBackground = settings.largeDeviceSubMenuBackground,
-
-		navButton = navbar.find("[class*='nav-button']").first(),
-		navActivators = navbar.find(".nav-activator"),	
-
-		navLogo = navbar.find(".nav-logo").first(),
-		navMenu = navbar.children(".nav-menu").first(),
-		navItems = navMenu.children(".nav-item"),
-		navComponents = navMenu.children(".nav-component"),
-		navSubMenus = navbar.find(".nav-sub-menu"),
+	const navSubMenus = navMenu.find(".nav-sub-menu");
+	const navSubMenuItems = navSubMenus.find(".nav-item");
 
 
-		setSmallDeviceProperties = () => {
+	const setSmallDeviceProperties = () => {
 
-			if (smallDeviceMenuReverse) {
-				navMenu.css("flex-direction", "row-reverse");	
-			}
+		if (settings.smallDeviceMenuReverse) {
+			navMenu.css("flex-direction", "row-reverse");	
+		}
 
-			navItems.css("margin-bottom", smallDeviceMenuSpacing);
-			navSubMenus.css("padding", smallDeviceSubMenuPadding);
-			navSubMenus.css("margin-top", smallDeviceSubMenuGap);
+		navItems.css("margin-bottom", settings.smallDeviceMenuSpacing);
+		navSubMenus.css("padding", settings.smallDeviceSubMenuPadding);
+		navSubMenus.css("margin-top", settings.smallDeviceSubMenuGap);
 
-			navLogo.css("color", smallDeviceLogoColor);
-			if (smallDeviceLogoBackground) {
-				navLogo.css("background", smallDeviceLogoBackground);
-			}
-			navMenu.css("color", smallDeviceMenuColor);
-			if (smallDeviceMenuBackground) {
-				navMenu.css("background", smallDeviceMenuBackground);
-			}
-			navSubMenus.css("color", smallDeviceSubMenuColor);
-			if (smallDeviceSubMenuBackground) {
-				navSubMenus.css("background", smallDeviceSubMenuBackground);
-			}
+		navSubMenuItems.css("margin-bottom", settings.smallDeviceSubMenuSpacing);
 
-			navMenu.children(".nav-item").last().css("margin-bottom", "1rem");
-			navMenu.find(".nav-sub-menu").children().last().css("margin-bottom", "0.5rem");
-		},
+		navLogo.css("color", settings.smallDeviceLogoColor);
+		if (settings.smallDeviceLogoBackground) {
+			navLogo.css("background", settings.smallDeviceLogoBackground);
+		}
+		navMenu.css("color", settings.smallDeviceMenuColor);
+		if (settings.smallDeviceMenuBackground) {
+			navMenu.css("background", settings.smallDeviceMenuBackground);
+		}
+		navSubMenus.css("color", settings.smallDeviceSubMenuColor);
+		if (settings.smallDeviceSubMenuBackground) {
+			navSubMenus.css("background", settings.smallDeviceSubMenuBackground);
+		}
 
-		setMediumDeviceProperties = () => {
+		navMenu.children(".nav-item").last().css("margin-bottom", "1rem");
+		navMenu.find(".nav-sub-menu").children().last().css("margin-bottom", "0.5rem");
+	};
 
-			navLogo.css("display", "flex");
+	const setMediumDeviceProperties = () => {
 
-			if (mediumDeviceMenuReverse) {
-				navMenu.css("flex-direction", "row-reverse");
-				navLogo.css("justify-content", "end").css("text-align", "right");
-				navLogo.children().css("flex", "none");	
-			}
+		navLogo.css("display", "flex");
 
-			navItems.css("margin-bottom", mediumDeviceMenuSpacing);
-			navSubMenus.css("padding", mediumDeviceSubMenuPadding);
-			navSubMenus.css("margin-top", mediumDeviceSubMenuGap);
+		if (settings.mediumDeviceMenuReverse) {
+			navMenu.css("flex-direction", "row-reverse");
+			navLogo.css("justify-content", "end").css("text-align", "right");
+			navLogo.children().css("flex", "none");	
+		}
 
-			navLogo.css("color", mediumDeviceLogoColor);
-			if (mediumDeviceLogoBackground) {
-				navLogo.css("background", mediumDeviceLogoBackground);
-			}
-			navMenu.css("color", mediumDeviceMenuColor);
-			if (mediumDeviceMenuBackground) {
-				navMenu.css("background", mediumDeviceMenuBackground);		
-			}
-			navSubMenus.css("color", mediumDeviceSubMenuColor);
-			if (mediumDeviceSubMenuBackground) {
-				navSubMenus.css("background", mediumDeviceSubMenuBackground);
-			}
+		navItems.css("margin-bottom", settings.mediumDeviceMenuSpacing);
+		navSubMenus.css("padding", settings.mediumDeviceSubMenuPadding);
+		navSubMenus.css("margin-top", settings.mediumDeviceSubMenuGap);
 
-			navMenu.children(".nav-item").last().css("margin-bottom", "1rem");
-			navMenu.find(".nav-sub-menu").children().last().css("margin-bottom", "0.5rem");
-		},
+		navSubMenuItems.css("margin-bottom", settings.mediumDeviceSubMenuSpacing);
 
-		setLargeDeviceProperties = () => {
+		navLogo.css("color", settings.mediumDeviceLogoColor);
+		if (settings.mediumDeviceLogoBackground) {
+			navLogo.css("background", settings.mediumDeviceLogoBackground);
+		}
+		navMenu.css("color", settings.mediumDeviceMenuColor);
+		if (settings.mediumDeviceMenuBackground) {
+			navMenu.css("background", settings.mediumDeviceMenuBackground);		
+		}
+		navSubMenus.css("color", settings.mediumDeviceSubMenuColor);
+		if (settings.mediumDeviceSubMenuBackground) {
+			navSubMenus.css("background", settings.mediumDeviceSubMenuBackground);
+		}
 
-			navLogo.css("display", "flex");
+		navMenu.children(".nav-item").last().css("margin-bottom", "1rem");
+		navMenu.find(".nav-sub-menu").children().last().css("margin-bottom", "0.5rem");
+	};
 
-			if (largeDeviceMenuReverse) {
-				navMenu.css("flex-direction", "row-reverse");
-				navLogo.css("justify-content", "end").css("text-align", "right");
-				navLogo.children().css("flex", "none");
-				
-				if (navItems.last().css("margin-right")) {
-					navItems.last().css("margin-left", largeDeviceMenuOffset);
-				}
-			}
-			else {
-				navItems.last().css("margin-right", largeDeviceMenuOffset);
-			}
+	const setLargeDeviceProperties = () => {
+
+		navLogo.css("display", "flex");
+
+		if (settings.largeDeviceMenuReverse) {
+			navMenu.css("flex-direction", "row-reverse");
+			navLogo.css("justify-content", "end").css("text-align", "right");
+			navLogo.children().css("flex", "none");
 			
-			navItems.css("margin-left", largeDeviceMenuSpacing);
-			navSubMenus.css("margin-left", largeDeviceSubMenuOffset);
-			navSubMenus.css("margin-top", largeDeviceSubMenuGap);
-			navSubMenus.css("padding", largeDeviceSubMenuPadding);
-			
-			navLogo.css("color", largeDeviceLogoColor);
-			if (largeDeviceLogoBackground) {
-				navLogo.css("background", largeDeviceLogoBackground);
+			if (navItems.last().css("margin-right")) {
+				navItems.last().css("margin-left", settings.largeDeviceMenuOffset);
 			}
-			navMenu.css("color", largeDeviceMenuColor);
-			if (largeDeviceMenuBackground) {
-				navMenu.css("background", largeDeviceMenuBackground);
-			}
-			navSubMenus.css("color", largeDeviceSubMenuColor);
-			if (largeDeviceSubMenuBackground) {
-				navSubMenus.css("background", largeDeviceSubMenuBackground);
-			}
-
-			navMenu.children(".nav-item").last().css("margin-bottom", "0");
-			navMenu.find(".nav-sub-menu").children().last().css("margin-bottom", "0.5rem");
-
-			if (largeDeviceSubMenuReverse) {
-				let totalWidth = parseFloat(navSubMenus.last().css("right", largeDeviceMenuOffset).css("right"));
-					
-				let navItemWidth = 0;
-				let navItemsMarginRight = parseFloat(navItems.last().css("margin-right"));
-				let navComponentsWidth = 0;
-				let menuSpacing = parseFloat(largeDeviceMenuSpacing);
-				let navComponentsPadding = 0;
-				
-				if (navSubMenus.length > 0) {
-
-					navComponents.forEach((nc) => { 
-						navComponentsWidth += nc.offsetWidth; 
-						navComponentsPadding += parseFloat(webui(nc).css("padding-right"));
-					});
-
-					totalWidth += navComponentsWidth === 0 ? navItemsMarginRight * 2 : 0;
-
-					navSubMenus.reverse().forEach((sm) => {
-						webui(sm).css("right", navComponentsWidth + navComponentsPadding + totalWidth + "px");
-						navItemWidth = parseFloat(webui(sm).closest(".nav-item").css("width"));
-						totalWidth += navItemWidth + menuSpacing;							
-					});
-
-					navSubMenus.reverse();
-
-					navSubMenus.css("margin-right", largeDeviceSubMenuOffset);
-				}
-			}
-
-		};
-
-		const resetNavbar = () => {	
-
-			navLogo.attr("style", "");
-			navMenu.attr("style","");
-			navItems.attr("style", "");
-			navComponents.attr("style", "");
-			navSubMenus.attr("style", "");
-
-			navMenu.removeClass("md-device").removeClass("lg-device")
-
-			if (webui.isWindowInBreakPointRange([0, 3])) {
-
-				navButton.parent().siblings(".nav-item, .nav-component").hide();
-				navButton.removeClass("active");
-				navSubMenus.hide();
-				navActivators.removeClass("active");
-				navActivators.find(".nav-indicator").removeClass("active");
-
-				setSmallDeviceProperties();	
-			}
-			else if (webui.isWindowInBreakPointRange([3, 5])) {
-
-				navMenu.addClass("md-device");
-
-				navButton.parent().siblings(".nav-item").hide();
-				navButton.removeClass("active");
-				navSubMenus.hide();
-				navActivators.removeClass("active");
-				navActivators.find(".nav-indicator").removeClass("active");
-	
-				navButton.parent().siblings(".nav-component").show();
-
-				setMediumDeviceProperties();
-			}
-			else {
-
-				navMenu.addClass("lg-device");
-
-				navSubMenus.hide();
-				navActivators.removeClass("active");
-				navActivators.find(".nav-indicator").removeClass("active");
-				
-				navButton.parent().siblings(".nav-item, .nav-component").show();
-				navSubMenus.children(".nav-item").show();
-
-				setLargeDeviceProperties();
-			}
-	
-		};
-
-
-	this.updateInstance = function (newSettings) {
+		}
+		else {
+			navItems.last().css("margin-right", settings.largeDeviceMenuOffset);
+		}
 		
-		if (newSettings.transitionDuration !== undefined) { transitionDuration = newSettings.transitionDuration; }
+		navItems.css("margin-left", settings.largeDeviceMenuSpacing);
+		navSubMenus.css("margin-left", settings.largeDeviceSubMenuOffset);
+		navSubMenus.css("margin-top", settings.largeDeviceSubMenuGap);
+		navSubMenus.css("padding", settings.largeDeviceSubMenuPadding);
 
-		if (newSettings.smallDeviceMenuReverse !== undefined) { smallDeviceMenuReverse = newSettings.smallDeviceMenuReverse; }
-		if (newSettings.smallDeviceSubMenuPadding !== undefined) { smallDeviceSubMenuPadding = newSettings.smallDeviceSubMenuPadding; }
-		if (newSettings.smallDeviceSubMenuGap !== undefined) { smallDeviceSubMenuGap = newSettings.smallDeviceSubMenuGap; }
-		if (newSettings.smallDeviceMenuSpacing !== undefined) { smallDeviceMenuSpacing = newSettings.smallDeviceMenuSpacing; }
+		navSubMenuItems.css("margin-bottom", settings.largeDeviceSubMenuSpacing);
+		
+		navLogo.css("color", settings.largeDeviceLogoColor);
+		if (settings.largeDeviceLogoBackground) {
+			navLogo.css("background", settings.largeDeviceLogoBackground);
+		}
+		navMenu.css("color", settings.largeDeviceMenuColor);
+		if (settings.largeDeviceMenuBackground) {
+			navMenu.css("background", settings.largeDeviceMenuBackground);
+		}
+		navSubMenus.css("color", settings.largeDeviceSubMenuColor);
+		if (settings.largeDeviceSubMenuBackground) {
+			navSubMenus.css("background", settings.largeDeviceSubMenuBackground);
+		}
 
-		if (newSettings.mediumDeviceMenuReverse !== undefined) { mediumDeviceMenuReverse = newSettings.mediumDeviceMenuReverse; }
-		if (newSettings.mediumDeviceSubMenuPadding !== undefined) { mediumDeviceSubMenuPadding = newSettings.mediumDeviceSubMenuPadding; }
-		if (newSettings.mediumDeviceSubMenuGap !== undefined) { mediumDeviceSubMenuGap = newSettings.mediumDeviceSubMenuGap; }
-		if (newSettings.mediumDeviceMenuSpacing !== undefined) { mediumDeviceMenuSpacing = newSettings.mediumDeviceMenuSpacing; }
+		navMenu.children(".nav-item").last().css("margin-bottom", "0");
+		navMenu.find(".nav-sub-menu").children().last().css("margin-bottom", "0.5rem");
 
-		if (newSettings.largeDeviceMenuReverse !== undefined) { largeDeviceMenuReverse = newSettings.largeDeviceMenuReverse; }
-		if (newSettings.largeDeviceSubMenuPadding !== undefined) { largeDeviceSubMenuPadding = newSettings.largeDeviceSubMenuPadding; }
-		if (newSettings.largeDeviceSubMenuGap !== undefined) { largeDeviceSubMenuGap = newSettings.largeDeviceSubMenuGap; }
-		if (newSettings.largeDeviceMenuSpacing !== undefined) { largeDeviceMenuSpacing = newSettings.largeDeviceMenuSpacing; }
-		if (newSettings.largeDeviceMenuOffset !== undefined) { largeDeviceMenuOffset = newSettings.largeDeviceMenuOffset; }
-		if (newSettings.largeDeviceSubMenuOffset !== undefined) { largeDeviceSubMenuOffset = newSettings.largeDeviceSubMenuOffset; }	
-		if (newSettings.largeDeviceSubMenuReverse !== undefined) { largeDeviceSubMenuReverse = newSettings.largeDeviceSubMenuReverse; }
+		if (settings.largeDeviceSubMenuReverse) {
+			let totalWidth = parseFloat(navSubMenus.last().css("right", settings.largeDeviceMenuOffset).css("right"));
+				
+			let navItemWidth = 0;
+			let navItemsMarginRight = parseFloat(navItems.last().css("margin-right"));
+			let navComponentsWidth = 0;
+			let menuSpacing = parseFloat(settings.largeDeviceMenuSpacing);
+			let navComponentsPadding = 0;
+			
+			if (navSubMenus.length > 0) {
 
-		if (newSettings.smallDeviceLogoColor !== undefined) { smallDeviceLogoColor = newSettings.smallDeviceLogoColor; }
-		if (newSettings.smallDeviceLogoBackground !== undefined) { smallDeviceLogoBackground = newSettings.smallDeviceLogoBackground; }
-		if (newSettings.smallDeviceMenuColor !== undefined) { smallDeviceMenuColor = newSettings.smallDeviceMenuColor; }
-		if (newSettings.smallDeviceMenuBackground !== undefined) { smallDeviceMenuBackground = newSettings.smallDeviceMenuBackground; }
-		if (newSettings.smallDeviceSubMenuColor !== undefined) { smallDeviceSubMenuColor = newSettings.smallDeviceSubMenuColor; }
-		if (newSettings.smallDeviceSubMenuBackground !== undefined) { smallDeviceSubMenuBackground = newSettings.smallDeviceSubMenuBackground; }
+				navComponents.forEach((nc) => { 
+					navComponentsWidth += nc.offsetWidth; 
+					navComponentsPadding += parseFloat(webui(nc).css("padding-right"));
+				});
 
-		if (newSettings.mediumDeviceLogoColor !== undefined) { mediumDeviceLogoColor = newSettings.mediumDeviceLogoColor; }
-		if (newSettings.mediumDeviceLogoBackground !== undefined) { mediumDeviceLogoBackground = newSettings.mediumDeviceLogoBackground; }
-		if (newSettings.mediumDeviceMenuColor !== undefined) { mediumDeviceMenuColor = newSettings.mediumDeviceMenuColor; }
-		if (newSettings.mediumDeviceMenuBackground !== undefined) { mediumDeviceMenuBackground = newSettings.mediumDeviceMenuBackground; }
-		if (newSettings.mediumDeviceSubMenuColor !== undefined) { mediumDeviceSubMenuColor = newSettings.mediumDeviceSubMenuColor; }
-		if (newSettings.mediumDeviceSubMenuBackground !== undefined) { mediumDeviceSubMenuBackground = newSettings.mediumDeviceSubMenuBackground; }
+				totalWidth += navComponentsWidth === 0 ? navItemsMarginRight * 2 : 0;
 
-		if (newSettings.largeDeviceLogoColor !== undefined) { largeDeviceLogoColor = newSettings.largeDeviceLogoColor; }
-		if (newSettings.largeDeviceLogoBackground !== undefined) { largeDeviceLogoBackground = newSettings.largeDeviceLogoBackground; }
-		if (newSettings.largeDeviceMenuColor !== undefined) { largeDeviceMenuColor = newSettings.largeDeviceMenuColor; }
-		if (newSettings.largeDeviceMenuBackground !== undefined) { largeDeviceMenuBackground = newSettings.largeDeviceMenuBackground; }
-		if (newSettings.largeDeviceSubMenuColor !== undefined) { largeDeviceSubMenuColor = newSettings.largeDeviceSubMenuColor; }
-		if (newSettings.largeDeviceSubMenuBackground !== undefined) { largeDeviceSubMenuBackground = newSettings.largeDeviceSubMenuBackground; }
+				navSubMenus.reverse().forEach((sm) => {
+					webui(sm).css("right", navComponentsWidth + navComponentsPadding + totalWidth + "px");
+					navItemWidth = parseFloat(webui(sm).closest(".nav-item").css("width"));
+					totalWidth += navItemWidth + menuSpacing;							
+				});
+
+				navSubMenus.reverse();
+
+				navSubMenus.css("margin-right", settings.largeDeviceSubMenuOffset);
+			}
+		}
+	};
+
+	const resetNavbar = () => {	
+
+		navLogo.attr("style", "");
+		navMenu.attr("style","");
+		navItems.attr("style", "");
+		navComponents.attr("style", "");
+		navSubMenus.attr("style", "");
+
+		navMenu.removeClass("md-device").removeClass("lg-device")
+
+		if (webui.isWindowInBreakPointRange([0, 3])) {
+
+			navToggle.siblings(".nav-item, .nav-component").hide();
+			navToggler.removeClass("active");
+			navSubMenus.hide();
+			navActivators.removeClass("active");
+			navActivators.find(".nav-indicator").removeClass("active");
+
+			setSmallDeviceProperties();	
+		}
+		else if (webui.isWindowInBreakPointRange([3, 5])) {
+
+			navMenu.addClass("md-device");
+
+			navToggle.siblings(".nav-item").hide();
+			navToggler.removeClass("active");
+			navSubMenus.hide();
+			navActivators.removeClass("active");
+			navActivators.find(".nav-indicator").removeClass("active");
+
+			navToggle.siblings(".nav-component").show();
+
+			setMediumDeviceProperties();
+		}
+		else {
+
+			navMenu.addClass("lg-device");
+
+			navSubMenus.hide();
+			navActivators.removeClass("active");
+			navActivators.find(".nav-indicator").removeClass("active");
+			
+			navToggle.siblings(".nav-item, .nav-component").show();
+			navSubMenus.children(".nav-item").show();
+
+			setLargeDeviceProperties();
+		}
+
+	};
+
+
+	const updateInstance = (newSettings) => {
+	
+		if (newSettings.transitionDuration !== undefined) { settings.transitionDuration = newSettings.transitionDuration; }
+
+		if (newSettings.smallDeviceMenuReverse !== undefined) { settings.smallDeviceMenuReverse = newSettings.smallDeviceMenuReverse; }
+		if (newSettings.smallDeviceSubMenuPadding !== undefined) { settings.smallDeviceSubMenuPadding = newSettings.smallDeviceSubMenuPadding; }
+		if (newSettings.smallDeviceSubMenuGap !== undefined) { settings.smallDeviceSubMenuGap = newSettings.smallDeviceSubMenuGap; }
+		if (newSettings.smallDeviceMenuSpacing !== undefined) { settings.smallDeviceMenuSpacing = newSettings.smallDeviceMenuSpacing; }
+
+		if (newSettings.mediumDeviceMenuReverse !== undefined) { settings.mediumDeviceMenuReverse = newSettings.mediumDeviceMenuReverse; }
+		if (newSettings.mediumDeviceSubMenuPadding !== undefined) { settings.mediumDeviceSubMenuPadding = newSettings.mediumDeviceSubMenuPadding; }
+		if (newSettings.mediumDeviceSubMenuGap !== undefined) { settings.mediumDeviceSubMenuGap = newSettings.mediumDeviceSubMenuGap; }
+		if (newSettings.mediumDeviceMenuSpacing !== undefined) { settings.mediumDeviceMenuSpacing = newSettings.mediumDeviceMenuSpacing; }
+
+		if (newSettings.largeDeviceMenuReverse !== undefined) { settings.largeDeviceMenuReverse = newSettings.largeDeviceMenuReverse; }
+		if (newSettings.largeDeviceSubMenuPadding !== undefined) { settings.largeDeviceSubMenuPadding = newSettings.largeDeviceSubMenuPadding; }
+		if (newSettings.largeDeviceSubMenuGap !== undefined) { settings.largeDeviceSubMenuGap = newSettings.largeDeviceSubMenuGap; }
+		if (newSettings.largeDeviceMenuSpacing !== undefined) { settings.largeDeviceMenuSpacing = newSettings.largeDeviceMenuSpacing; }
+		if (newSettings.largeDeviceMenuOffset !== undefined) { settings.largeDeviceMenuOffset = newSettings.largeDeviceMenuOffset; }
+		if (newSettings.largeDeviceSubMenuOffset !== undefined) { settings.largeDeviceSubMenuOffset = newSettings.largeDeviceSubMenuOffset; }	
+		if (newSettings.largeDeviceSubMenuReverse !== undefined) { settings.largeDeviceSubMenuReverse = newSettings.largeDeviceSubMenuReverse; }
+
+		if (newSettings.smallDeviceLogoColor !== undefined) { settings.smallDeviceLogoColor = newSettings.smallDeviceLogoColor; }
+		if (newSettings.smallDeviceLogoBackground !== undefined) { settings.smallDeviceLogoBackground = newSettings.smallDeviceLogoBackground; }
+		if (newSettings.smallDeviceMenuColor !== undefined) { settings.smallDeviceMenuColor = newSettings.smallDeviceMenuColor; }
+		if (newSettings.smallDeviceMenuBackground !== undefined) { settings.smallDeviceMenuBackground = newSettings.smallDeviceMenuBackground; }
+		if (newSettings.smallDeviceSubMenuColor !== undefined) { settings.smallDeviceSubMenuColor = newSettings.smallDeviceSubMenuColor; }
+		if (newSettings.smallDeviceSubMenuBackground !== undefined) { settings.smallDeviceSubMenuBackground = newSettings.smallDeviceSubMenuBackground; }
+
+		if (newSettings.mediumDeviceLogoColor !== undefined) { settings.mediumDeviceLogoColor = newSettings.mediumDeviceLogoColor; }
+		if (newSettings.mediumDeviceLogoBackground !== undefined) { settings.mediumDeviceLogoBackground = newSettings.mediumDeviceLogoBackground; }
+		if (newSettings.mediumDeviceMenuColor !== undefined) { settings.mediumDeviceMenuColor = newSettings.mediumDeviceMenuColor; }
+		if (newSettings.mediumDeviceMenuBackground !== undefined) { settings.mediumDeviceMenuBackground = newSettings.mediumDeviceMenuBackground; }
+		if (newSettings.mediumDeviceSubMenuColor !== undefined) { settings.mediumDeviceSubMenuColor = newSettings.mediumDeviceSubMenuColor; }
+		if (newSettings.mediumDeviceSubMenuBackground !== undefined) { settings.mediumDeviceSubMenuBackground = newSettings.mediumDeviceSubMenuBackground; }
+
+		if (newSettings.largeDeviceLogoColor !== undefined) { settings.largeDeviceLogoColor = newSettings.largeDeviceLogoColor; }
+		if (newSettings.largeDeviceLogoBackground !== undefined) { settings.largeDeviceLogoBackground = newSettings.largeDeviceLogoBackground; }
+		if (newSettings.largeDeviceMenuColor !== undefined) { settings.largeDeviceMenuColor = newSettings.largeDeviceMenuColor; }
+		if (newSettings.largeDeviceMenuBackground !== undefined) { settings.largeDeviceMenuBackground = newSettings.largeDeviceMenuBackground; }
+		if (newSettings.largeDeviceSubMenuColor !== undefined) { settings.largeDeviceSubMenuColor = newSettings.largeDeviceSubMenuColor; }
+		if (newSettings.largeDeviceSubMenuBackground !== undefined) { settings.largeDeviceSubMenuBackground = newSettings.largeDeviceSubMenuBackground; }
 		
 		resetNavbar();
 	};
 
 
-	//setNavbarProperties();
-	resetNavbar();
-	
-
 	/* EVENTS */
 
-	webui.breakpointChange(function() {
-		console.log(webui.isWindowInBreakPointRange([0, 3]) ? "[0, 3]"
-		 : webui.isWindowInBreakPointRange([3, 5]) ? "[3, 5]" 
-		 : webui.isWindowInBreakPointRange([5, 0]) ? "[5, 0]" 
-		 : "???");
-
+	webui.breakpointChange(() => {
 		resetNavbar();
 	});
 	
@@ -300,7 +260,7 @@ const NavbarInstance = function (navbar, settings) {
 	navActivators.click(function(e) {
 		e.preventDefault();
 
-		var navActivator = webui(this),
+		let navActivator = webui(this),
 			subMenu = navActivator.nextSibling(".nav-sub-menu");
 
 		navActivator.toggleClass("active");
@@ -308,26 +268,22 @@ const NavbarInstance = function (navbar, settings) {
 
 
 		if (webui.isWindowInBreakPointRange([0, 3])) {
-			subMenu.css("padding", smallDeviceSubMenuPadding);
+			subMenu.css("padding", settings.smallDeviceSubMenuPadding);
 		}
 		else if (webui.isWindowInBreakPointRange([3, 5])) {
-			subMenu.css("padding", mediumDeviceSubMenuPadding);
+			subMenu.css("padding", settings.mediumDeviceSubMenuPadding);
 		}
 		else {
-			subMenu.css("padding", largeDeviceSubMenuPadding);
+			subMenu.css("padding", settings.largeDeviceSubMenuPadding);
 		}
-
-		var navSubMenuPaddingTop = parseFloat(subMenu.css("padding-top"));
-		var navSubMenuPaddingBottom = parseFloat(subMenu.css("padding-bottom"));
-
 
 		if (navActivator.hasClass("active")) {
 
-			var siblingActivators = navActivator.parent().siblings().children(".nav-activator");
+			let siblingActivators = navActivator.parent().siblings().children(".nav-activator");
 
-			for (var i = 0; i < siblingActivators.length; i++) {
+			for (let i = 0; i < siblingActivators.length; i++) {
 
-				var siblingActivator = webui(siblingActivators[i]);
+				let siblingActivator = webui(siblingActivators[i]);
 
 				if (siblingActivator.hasClass("active")) {
 
@@ -337,7 +293,7 @@ const NavbarInstance = function (navbar, settings) {
 					siblingActivator.find(".nav-indicator").removeClass("active");
 	
 					siblingActivator.nextSibling(".nav-sub-menu")
-					.collapseVertical({ duration: transitionDuration, paddingTop: navSubMenuPaddingTop, paddingBottom: navSubMenuPaddingBottom }, function() {
+					.collapseVertical({ duration: settings.transitionDuration }, function() {
 						navbar.trigger("ui.navbar.submenu.hide.after");
 					});
 				}
@@ -345,7 +301,7 @@ const NavbarInstance = function (navbar, settings) {
 			
 			navbar.trigger("ui.navbar.submenu.show.before");
 
-			subMenu.expandVertical({ duration: transitionDuration, targetHeight: 0, paddingTop: navSubMenuPaddingTop, paddingBottom: navSubMenuPaddingBottom }, function() {
+			subMenu.expandVertical({ duration: settings.transitionDuration, targetHeight: 0, includePadding: true }, function() {
 				navbar.trigger("ui.navbar.submenu.show.after");
 			});
 			
@@ -353,7 +309,7 @@ const NavbarInstance = function (navbar, settings) {
 		else {
 			navbar.trigger("ui.navbar.submenu.hide.before");
 
-			subMenu.collapseVertical({ duration: transitionDuration, paddingTop: navSubMenuPaddingTop, paddingBottom: navSubMenuPaddingBottom }, function() {
+			subMenu.collapseVertical({ duration: settings.transitionDuration, includePadding: true }, function() {
 				navbar.trigger("ui.navbar.submenu.hide.after");
 			});
 
@@ -361,21 +317,22 @@ const NavbarInstance = function (navbar, settings) {
 	
 	});
 	
-	navButton.click(function(e) {
+	navToggler.click(function(e) {
 		e.preventDefault();
 
-		var toggleButton = webui(this);
-		var rootItems = toggleButton.parent().siblings(".nav-item");
-		var rootComponents = toggleButton.parent().siblings(".nav-component");
-		var triggered = false;
+		let toggleButton = webui(this);
+		let rootItems = toggleButton.parent().siblings(".nav-item");
+		let rootComponents = toggleButton.parent().siblings(".nav-component");
+		let triggered = false;
 
 		toggleButton.toggleClass("active");
+
 
 		if (toggleButton.hasClass("active")) {
 
 			navbar.trigger("ui.navbar.menu.show.before");
 			
-			rootItems.expandVertical({ duration: transitionDuration }, function() {
+			rootItems.expandVertical({ duration: settings.transitionDuration, includeMargin: true }, function() {
 				if (!triggered) { 
 					triggered = true;
 					navbar.trigger("ui.navbar.menu.show.after");
@@ -383,7 +340,7 @@ const NavbarInstance = function (navbar, settings) {
 			});
 
 			if (webui.isWindowInBreakPointRange([0, 3])) {
-				rootComponents.expandVertical({ duration: transitionDuration }, function() {
+				rootComponents.expandVertical({ duration: settings.transitionDuration }, function() {
 					if (!triggered) { 
 						triggered = true;
 						navbar.trigger("ui.navbar.menu.show.after");
@@ -393,59 +350,67 @@ const NavbarInstance = function (navbar, settings) {
 		}
 		else {
 			navbar.trigger("ui.navbar.menu.hide.before");
-
-			rootItems.collapseVertical({ duration: transitionDuration }, function() {
-				//rootItems.attr("style", "");
+		
+			rootItems.collapseVertical({ duration: settings.transitionDuration, includeMargin: true }, function() {
 
 				if (!triggered) { 
 					triggered = true;		
 					navbar.trigger("ui.navbar.menu.hide.after");
 				}
 			});
-
+			
+	
 			if (webui.isWindowInBreakPointRange([0, 3])) {
-				rootComponents.collapseVertical({ duration: transitionDuration }, function() {
-					//rootComponents.attr("style", "");
-
+				rootComponents.collapseVertical({ duration: settings.transitionDuration, includeMargin: true }, function() {
+	
 					if (!triggered) { 
 						triggered = true;	
 						navbar.trigger("ui.navbar.menu.hide.after");
 					}
 				});
+			}	
 
-			}
 		}
 
-	});		
+	});
+
+	resetNavbar();
+	
+	return {
+		updateInstance: (newOptions) => updateInstance(newOptions)
+	};
 
 };
 
 /* PUBLIC */
 
-export const navBar = function(selector, options) {
+export const navBar = (selector, options) => {
 
-	let settings = webui.extend({
+	let defaultOptions = webui.extend({
 
 		transitionDuration: 300,
 
 		smallDeviceMenuReverse: false,
-		smallDeviceSubMenuPadding: "0 1rem",
-		smallDeviceSubMenuGap: 0,
-		smallDeviceMenuSpacing: 0,
-
+		smallDeviceMenuSpacing: "0.5rem",
+		smallDeviceSubMenuGap: "0.2rem",
+		smallDeviceSubMenuPadding: "0.2rem 1rem",
+		smallDeviceSubMenuSpacing: "0.4rem",
+		
 		mediumDeviceMenuReverse: false,
-		mediumDeviceSubMenuPadding: "0 1rem",
-		mediumDeviceSubMenuGap: 0,
-		mediumDeviceMenuSpacing: 0,
+		mediumDeviceMenuSpacing: "0.5rem",
+		mediumDeviceSubMenuGap: "0.2rem",
+		mediumDeviceSubMenuPadding: "0.2rem 1rem",
+		mediumDeviceSubMenuSpacing: "0.4rem",
 
-		largeDeviceMenuReverse: false,
-		largeDeviceSubMenuPadding: "0 1rem",
-		largeDeviceSubMenuGap: 0,
+		largeDeviceMenuReverse: false,	
 		largeDeviceMenuSpacing: 0,
-		largeDeviceMenuOffset: 0,				
-		largeDeviceSubMenuOffset: 0,
+		largeDeviceMenuOffset: 0,
 		largeDeviceSubMenuReverse: false,
-
+		largeDeviceSubMenuGap: "0.125rem",
+		largeDeviceSubMenuPadding: "0.5rem 1rem",
+		largeDeviceSubMenuSpacing: "0.7rem",
+		largeDeviceSubMenuOffset: 0,
+		
 		smallDeviceLogoColor: "inherit",
 		smallDeviceLogoBackground: "",
 		smallDeviceMenuColor: "inherit",
@@ -473,47 +438,44 @@ export const navBar = function(selector, options) {
 
 	if (o.length > 1) { console.warn("WebUI navbar component does not support initialising multiple controls. Initialize a new component instead.") }
 
-	let control = new NavbarInstance(o, settings);
+	let control = NavbarInstance(o.first(), defaultOptions);
 
-	/*
-	this.update = function (newSettings) {
-		control.updateInstance(newSettings);
+	
+	return {
+		update: (newOptions) => control.updateInstance(newOptions)
 	};
-	*/
-
-	//return this;
-	return control;
+	
 };
 
 
-export const navButton = (selector, options) => {
+export const navToggler = function (selector, options) {
 
-	var settings = webui.extend({
+	let settings = webui.extend({
 		transitionDuration: 300, 
 		backgroundColor: "transparent", 
 		color: "#000000"
 	}, options);
 
-	var controls = webui(selector);
+	let controls = webui(selector);
 
-	for (var i = 0; i < controls.length; i++) {
+	for (let i = 0; i < controls.length; i++) {
 		
-		var control = webui(controls[i]);
+		let control = webui(controls[i]);
 
-		control.append("<span class='nav-button-item'></span><span class='nav-button-item'></span><span class='nav-button-item'></span>");
-		control.find(".nav-button-item").css("display", "block").css("transition-duration", settings.transitionDuration / 1000 + "s");
+		control.append("<span class='nav-toggler-item'></span><span class='nav-toggler-item'></span><span class='nav-toggler-item'></span>");
+		control.find(".nav-toggler-item").css("display", "block").css("transition-duration", settings.transitionDuration / 1000 + "s");
 
 		control.css("background-color", settings.backgroundColor);
-		control.find(".nav-button-item").css("background-color", settings.color);	
+		control.find(".nav-toggler-item").css("background-color", settings.color);	
 	}	
 	
 	return this;
 };
 
 
-export const navIndicator = (selector, options) => {
+export const navIndicator = function (selector, options) {
 
-	var settings = webui.extend({
+	let settings = webui.extend({
 		indicatorType: "caret",
 		indicatorSize: "medium",
 		backgroundColor: "transparent", 
@@ -521,17 +483,17 @@ export const navIndicator = (selector, options) => {
 		transitionDuration: 500
 	}, options);
 
-	var controls = webui(selector);
+	let controls = webui(selector);
 
-	var size = settings.indicatorSize === "small" ? "16" : settings.indicatorSize === "medium" ? "20" : settings.indicatorSize === "large" ? "24" : "20";
+	let size = settings.indicatorSize === "small" ? "16" : settings.indicatorSize === "medium" ? "20" : settings.indicatorSize === "large" ? "24" : "20";
 
-	for (var i = 0; i < controls.length; i++) {
+	for (let i = 0; i < controls.length; i++) {
 		
-		var control = webui(controls[i]);
+		let control = webui(controls[i]);
 
 		control.append("<span class='indicator-item'>");
 
-		var indicator = control.children(".indicator-item").first();
+		let indicator = control.children(".indicator-item").first();
 
 		if (indicator) {
 

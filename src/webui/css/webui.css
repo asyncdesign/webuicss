@@ -50,12 +50,14 @@ select {
 .dark select {
 	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='hsl(0, 0%, 100%)' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
 }
+/*
 select[multiple] option { 
   display: flex;
   align-items: center;
   min-height: 1.5rem;
   padding: 0.125rem 0.625rem 0.125rem 0.625rem;
 }
+*/
 a:not([class*="button"]) {
 	padding: 0 0.075rem;
 }
@@ -190,8 +192,7 @@ svg:not(:root) {
 .nav-links > a:not(:last-child)::after,
 .nav-links > :not(:last-child) > a::after {
 	content: "/";
-	padding-left: 0.625rem;
-	padding-right: 0.625rem;
+	padding: 0 0.625rem;
 	color: var(--disabled-text);
 }
 .input,
@@ -203,7 +204,6 @@ svg:not(:root) {
 	color: var(--input-text);
 	background-color: var(--input-background);
 	border: 0.063rem solid var(--input-border);
-	padding: 0 0.625rem 0.125rem 0.625rem;
 }
 *[class*=input]:focus {
 	background-color: var(--input-background-focus);
@@ -221,7 +221,6 @@ svg:not(:root) {
 	color: var(--control-text);
 	background-color: var(--control-background);
 	border: 0.063rem solid var(--control-border);
-	padding: 0 0.75rem 0.125rem 0.75rem;
 }
 
 *[class*=button].button-outline {
@@ -256,11 +255,10 @@ svg:not(:root) {
   white-space: nowrap;
   outline: none;
   width: 100%;
-  color: var(--control-text);
+  color: inherit;
   background-color: transparent;
   border: 0.063rem solid transparent;
   cursor: default;
-  padding: 0 0.75rem 0.125rem 0.75rem;
 	overflow: hidden;
 }
 
@@ -653,7 +651,7 @@ svg:not(:root) {
 		line-height: 1.25rem;
 		width: 100%;
 		color: var(--color-white);
-		z-index: 100;
+		z-index: var(--layer-1);
 }
 
 .off-canvas-left {
@@ -715,26 +713,7 @@ svg:not(:root) {
 		margin-top: 0.375rem;
 	}
 }
-/*
-.text-scalable-xs {
-	@include interpolate(font-size, $settings_bp_1_over, $settings_bp_5_under, 0.56rem, 0.75rem);
-}
-.text-scalable-sm {
-	@include interpolate(font-size, $settings_bp_1_over, $settings_bp_5_under, 0.66rem, 0.875rem);
-}
-.text-scalable-md {
-	@include interpolate(font-size, $settings_bp_1_over, $settings_bp_5_under, 0.75rem, 1.1rem);
-}
-.text-scalable-lg {
-	@include interpolate(font-size, $settings_bp_1_over, $settings_bp_5_under, 0.84rem, 1.25rem);
-}
-.text-scalable-xl {
-	@include interpolate(font-size, $settings_bp_1_over, $settings_bp_5_under, 0.94rem, 1.5rem);
-}
-.text-scalable-mega {
-	@include interpolate(font-size, $settings_bp_1_over, $settings_bp_5_under, 1.87rem, 2.5rem);
-}
-*/
+
 .text-width-50 {
 	width: 50ch;
 }
@@ -745,37 +724,53 @@ svg:not(:root) {
 	width: 100ch;
 }
 
-.input-xs, .button-xs, .menu-button-xs, .toggle-button-xs > label, .progress-xs, .range-xs {
-	padding: 0 0.75rem 0.125rem 0.75rem;
-}
-.input-sm, .button-sm, .menu-button-sm, .toggle-button-sm > label, .progress-sm, .range-sm {
-	padding: 0.125rem 0.875rem 0.25rem 0.875rem;
-}
-.input-md, .button-md, .menu-button-md, .toggle-button-md > label, .progress-md, .range-md {
-	padding: 0.25rem 1rem 0.375rem 1rem;
-}
-.input-lg, .button-lg, .menu-button-lg, .toggle-button-lg > label, .progress-lg, .range-lg {
-	padding: 0.375rem 1.125rem 0.5rem 1.125rem;
-}
-.input-xl, .button-xl, .menu-button-xl, .toggle-button-xl > label, .progress-xl, .range-xl {
-	padding: 0.5rem 1.25rem 0.625rem 1.25rem;
+*[class*=input] {
+	padding: 0 0.75rem;
 }
 
-select.input-xs {
-	padding: 0 2rem 0.125rem 0.75rem;
+select[class*=input] {
+	padding-right: 2rem;
 }
-select.input-sm {
-	padding: 0.125rem 2rem 0.25rem 0.875rem;
+
+.button, .menu-button, .toggle-button > label {
+	padding: 0 1rem;
 }
-select.input-md {
-	padding: 0.25rem 2rem 0.375rem 1rem;
+.button-xs, .menu-button-xs, .toggle-button-xs > label {
+	padding: 0 0.75rem;
 }
-select.input-lg {
-	padding: 0.375rem 2rem 0.5rem 1.125rem;
+.button-sm, .menu-button-sm, .toggle-button-sm > label {
+	padding: 0 0.875rem;
 }
-select.input-xl {
-	padding: 0.5rem 2rem 0.625rem 1.25rem;
+.button-md, .menu-button-md, .toggle-button-md > label {
+	padding: 0 1rem;
 }
+.button-lg, .menu-button-lg, .toggle-button-lg > label {
+	padding: 0 1.125rem;
+}
+.button-xl, .menu-button-xl, .toggle-button-xl > label {
+	padding: 0 1.25rem;
+}
+
+
+.input, .button, .menu-button, .toggle-button > label, .progress, .range {
+	line-height: 2.25rem;
+}
+.input-xs, .button-xs, .menu-button-xs, .toggle-button-xs > label, .progress-xs, .range-xs {
+	line-height: 1.5rem;
+}
+.input-sm, .button-sm, .menu-button-sm, .toggle-button-sm > label, .progress-sm, .range-sm {
+	line-height: 1.875rem;
+}
+.input-md, .button-md, .menu-button-md, .toggle-button-md > label, .progress-md, .range-md {
+	line-height: 2.25rem;
+}
+.input-lg, .button-lg, .menu-button-lg, .toggle-button-lg > label, .progress-lg, .range-lg {
+	line-height: 2.625rem
+}
+.input-xl, .button-xl, .menu-button-xl, .toggle-button-xl > label, .progress-xl, .range-xl {
+	line-height: 3rem;
+}
+
 
 
 .control {

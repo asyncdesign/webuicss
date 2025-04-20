@@ -1,7 +1,7 @@
 
 import webui from '@asyncdesign/webui';
 
-export const zoom = (selector, options) => {
+export const zoom = function (selector, options) {
 
   let settings = webui.extend({
     zoomFactor: 1.1,

@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* NOTE: Keep these variables to a minimum to avoid performance impacts */
 
 :root {
@@ -137,14 +139,14 @@
   --input-background-focus: var(--color-neutral-500);
 
   --control-text: var(--color-white);
-  --control-border: var(--color-neutral-700);
-  --control-background: var(--color-neutral-700);
-  --control-background-secondary: var(--color-neutral-800);
-  --control-background-inactive: var(--color-neutral-600);
-  --control-background-inactive-secondary: var(--color-neutral-700);
-  --control-background-hover: var(--color-neutral-500);
-  --control-background-focus: var(--color-neutral-500);
-  --control-background-active: var(--color-neutral-800);
+  --control-border: var(--color-blue-700);
+  --control-background: var(--color-blue-700);
+  --control-background-secondary: var(--color-blue-800);
+  --control-background-inactive: var(--color-blue-600);
+  --control-background-inactive-secondary: var(--color-blue-700);
+  --control-background-hover: var(--color-blue-500);
+  --control-background-focus: var(--color-blue-500);
+  --control-background-active: var(--color-blue-800);
 
   --data-text: var(--color-white);
   --data-border: var(--color-neutral-400);

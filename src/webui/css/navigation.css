@@ -2,14 +2,32 @@
 /* Navbar */
 .nav {
   width: 100%;
-  height: 2.725rem;
+  line-height: 2.25rem;
+  height: 2.25rem;
   z-index: 130;
 }
-.nav *:not(.nav-component *) {
-  line-height: 2.725rem;
+.nav.nav-xs {
+  line-height: 1.5rem;
+  height: 1.5rem;
 }
-.nav .nav-item, .nav .nav-component {
-  height: 2.725rem;
+.nav.nav-sm {
+  line-height: 1.875rem;
+  height: 1.875rem;
+}
+.nav.nav-md {
+  line-height: 2.25rem;
+  height: 2.25rem;
+}
+.nav.nav-lg {
+  line-height: 2.625rem;
+  height: 2.625rem;
+}
+.nav.nav-xl {
+  line-height: 3rem;
+  height: 3rem;
+}
+.nav.nav-auto {
+  height: auto;
 }
 .nav .nav-sub-menu.text-normal *, .nav .nav-sub-menu .text-normal *, .nav .nav-sub-menu.nav-content *, .nav .nav-sub-menu .nav-content * {
   line-height: normal;
@@ -38,7 +56,7 @@
 .nav-menu > .nav-logo {
   background-color: inherit;
   color: inherit;
-  margin-left: 0.25rem;
+  margin-left: 1rem;
   z-index: inherit;
 }
 .nav-menu > .nav-item {
@@ -46,17 +64,17 @@
   width: 100%;
   display: none;
   position: relative;
-  height: auto;
-  padding: 0 1rem;
   z-index: inherit;
 }
 .nav-menu > .nav-item.active {
   display: block;
 }
 .nav-menu > .nav-item > a {
+  display: block;
+}
+.nav-menu > .nav-item > a:not([class*=menu-button]) {
   color: inherit;
   text-decoration: none;
-  display: block;
 }
 .nav-menu > .nav-item:not(.nav-sub-menu > .nav-item) {
   background-color: inherit;
@@ -66,7 +84,7 @@
   order: 2;
   width: 100%;
   display: none;
-  padding: 0 1rem;
+  margin-right: 1rem;
   z-index: inherit;
 }
 .nav-menu > .nav-component.active {
@@ -78,6 +96,7 @@
 }
 .nav-menu > .nav-toggle {
   order: 1;
+  margin-right: 0.5rem;
   z-index: inherit;
 }
 .nav-menu > .nav-item > .nav-sub-menu {
@@ -92,6 +111,9 @@
   display: block;
 }
 .nav-menu > .nav-item > .nav-sub-menu > .nav-item > a {
+  display: block;
+}
+.nav-menu > .nav-item > .nav-sub-menu > .nav-item > a:not([class*=menu-button]) {
   color: inherit;
   text-decoration: none;
 }
@@ -106,19 +128,15 @@
 .md-device.nav-menu > .nav-logo {
   flex: 1;
 }
-.md-device.nav-menu > .nav-item {
-  padding: 0 1rem;
-}
 .md-device.nav-menu > .nav-component {
   order: 1;
   width: auto;
-  padding: 0 0.5rem;
   display: block;
 }
-
 .md-device.nav-menu > .nav-toggle {
   order: 2;
 }
+
 .lg-device.nav-menu {
   justify-content: center;
 }
@@ -135,7 +153,6 @@
 }
 .lg-device.nav-menu > .nav-item > .nav-sub-menu {
   position: absolute;
-  padding: 0 2rem;
 }
 .lg-device.nav-menu > .nav-item > .nav-sub-menu > .nav-item:first-of-type {
   margin-top: 0.5rem;
@@ -150,72 +167,72 @@
 }
 
 
-/* Nav Button */
+/* Nav Toggler */
 
-.nav-button-sm {
+.nav-toggler-sm {
   position: relative;
   width: 2.475rem;
   height: 2.475rem;
 }
-.nav-button-sm .nav-button-item {
+.nav-toggler-sm .nav-toggler-item {
   position: absolute;
   right: 10px;
   width: 19px;
   height: 2px;
 }
 
-.nav-button-lg {
+.nav-toggler-lg {
   position: relative;
   width: 2.825rem;
   height: 2.825rem;
 }
-.nav-button-lg .nav-button-item {
+.nav-toggler-lg .nav-toggler-item {
   position: absolute;
   right: 10px;
   width: 24px;
   height: 2px;
 }
 
-.nav-button-sm .nav-button-item:nth-child(1) {
+.nav-toggler-sm .nav-toggler-item:nth-child(1) {
   top: 11px;
 }
-.nav-button-sm .nav-button-item:nth-child(2) {
+.nav-toggler-sm .nav-toggler-item:nth-child(2) {
   top: 18px;
 }
-.nav-button-sm .nav-button-item:nth-child(3) {
+.nav-toggler-sm .nav-toggler-item:nth-child(3) {
   top: 25px;
 }
 
-.nav-button-sm.active .nav-button-item:nth-child(1) {
+.nav-toggler-sm.active .nav-toggler-item:nth-child(1) {
   top: 18px;
   transform: rotate(45deg);
 }
-.nav-button-sm.active .nav-button-item:nth-child(2) {
+.nav-toggler-sm.active .nav-toggler-item:nth-child(2) {
   width: 0;
 }
-.nav-button-sm.active .nav-button-item:nth-child(3) {
+.nav-toggler-sm.active .nav-toggler-item:nth-child(3) {
   top: 18px;
   transform: rotate(-45deg);
 }
 
-.nav-button-lg .nav-button-item:nth-child(1) {
+.nav-toggler-lg .nav-toggler-item:nth-child(1) {
   top: 14px;
 }
-.nav-button-lg .nav-button-item:nth-child(2) {
+.nav-toggler-lg .nav-toggler-item:nth-child(2) {
   top: 21px;
 }
-.nav-button-lg .nav-button-item:nth-child(3) {
+.nav-toggler-lg .nav-toggler-item:nth-child(3) {
   top: 28px;
 }
 
-.nav-button-lg.active .nav-button-item:nth-child(1) {
+.nav-toggler-lg.active .nav-toggler-item:nth-child(1) {
   top: 21px;
   transform: rotate(45deg);
 }
-.nav-button-lg.active .nav-button-item:nth-child(2) {
+.nav-toggler-lg.active .nav-toggler-item:nth-child(2) {
   width: 0;
 }
-.nav-button-lg.active .nav-button-item:nth-child(3) {
+.nav-toggler-lg.active .nav-toggler-item:nth-child(3) {
   top: 21px;
   transform: rotate(-45deg);
 }

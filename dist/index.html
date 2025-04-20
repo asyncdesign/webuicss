@@ -6,10 +6,10 @@
   <link rel="icon" href="/assets/favicon-J-vPNcG7.ico">
   <title>Document</title>
 
-  <script type="module" crossorigin src="/assets/index-CExz_ojc.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-BzS2WZS1.css">
+  <script type="module" crossorigin src="/assets/index-DnzonDWM.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-DvJefS_Y.css">
 </head>
-<body class="dark accessibility flex justify-center text-sm">
+<body class="dark flex justify-center text-sm">
 
   <div class="w-11/12 sm:w-10/12 md:w-9/12 lg:w-8/12 xl:w-7/12">
     
@@ -22,17 +22,17 @@
     <p class="text-center mb-10" id="#subText">vite + tailwindcss</p>
 
 
-    <div class="mb-5">
+    <div class="p-4 mb-5">
       
-      <nav class="nav bg-neutral-700 text-white rounded-md" id="navbar1">
+      <nav class="nav bg-sky-700 dark:bg-neutral-700 text-white rounded-md" id="navbar1">
 
         <div class="nav-menu">
       
-          <div class="nav-logo pl-4 pr-4">Your Logo</div>
+          <div class="nav-logo">Your Logo</div>
       
           <div class="nav-item">
             <button class="menu-button rounded-sm text-left nav-activator">Menu 1</button>
-            <div class="nav-sub-menu accessibility-group">
+            <div class="nav-sub-menu rounded-sm accessibility-group">
               <div class="nav-item"><a href="#0" class="menu-button rounded-sm">Sub Menu Item 1</a></div>
               <div class="nav-item"><a href="#0" class="menu-button rounded-sm">Sub Menu Item 2</a></div>
               <div class="nav-item"><a href="#0" class="menu-button rounded-sm">Sub Menu Item 3</a></div>
@@ -41,7 +41,7 @@
           </div>
           <div class="nav-item">
             <button class="menu-button rounded-sm text-left nav-activator">Menu 2</button>
-            <div class="nav-sub-menu accessibility-group">
+            <div class="nav-sub-menu rounded-sm accessibility-group">
               <div class="nav-item"><a href="#0" class="menu-button rounded-sm">Sub Menu Item 1</a></div>
               <div class="nav-item"><a href="#0" class="menu-button rounded-sm">Sub Menu Item 2</a></div>
               <div class="nav-item"><a href="#0" class="menu-button rounded-sm">Sub Menu Item 3</a></div>
@@ -50,7 +50,7 @@
           </div>
           <div class="nav-item">
             <button class="menu-button rounded-sm text-left nav-activator">Very Long Navbar Menu Text</button>
-            <div class="nav-sub-menu accessibility-group">
+            <div class="nav-sub-menu rounded-sm accessibility-group">
               <div class="nav-item"><a href="#0" class="menu-button rounded-sm">Very long navbar sub menu text can be added.</a></div>
               <div class="nav-item"><a href="#0" class="menu-button rounded-sm">Sub Menu Item 2</a></div>
               <div class="nav-item"><a href="#0" class="menu-button rounded-sm">Sub Menu Item 3</a></div>
@@ -61,7 +61,7 @@
           <div class="nav-component">
             <div class="flex items-center justify-end gap-x-4">
               <label>Dark theme</label>
-              <div class="toggle-switch darklight success">	
+              <div class="toggle-switch darklight">	
                 <input type="checkbox" value="1" id="check-switch-4" />
                 <label for="check-switch-4" class="rounded-full">
                   <div class="toggle-switch-button transition"></div>
@@ -71,8 +71,8 @@
           </div>
       
       
-          <div class="nav-toggle pr-2">
-            <div class="nav-button-sm" id="navToggle1"></div>
+          <div class="nav-toggle">
+            <div class="nav-toggler-sm" id="navToggle1"></div>
           </div>
           
         </div> 
@@ -89,7 +89,7 @@
       <div class="grid gap-2 mb-5">
         <div class="flex items-center">
           <label for="firstName" class="w-1/4">First Name</label>
-          <input type="text" id="firstName" class="input-md rounded-sm" data-model="firstName" />
+          <input type="text" id="firstName" class="input rounded-sm" data-model="firstName" />
         </div>
         <div class="flex items-center">
           <label class="w-1/4">Binding:</label>
@@ -100,7 +100,7 @@
       <div class="grid gap-2 mb-10">
         <div class="flex items-center">
           <label for="lastName" class="w-1/4">Last Name</label>
-          <input type="text" id="lastName" class="input-md rounded-sm" data-model="lastName" />
+          <input type="text" id="lastName" class="input rounded-sm" data-model="lastName" />
         </div>
         <div class="flex items-center">
           <label class="w-1/4">Binding:</label>
@@ -116,10 +116,10 @@
       <div class="grid gap-2 mb-10">
         <div class="flex items-center">
           <label class="w-1/4">Signal:</label>
-          <button class="button-sm rounded-sm success" id="btnCount">0</button>
-          <div class="w-1/4"></div>
-          <label class="w-1/4">Computed:</label>
-          <div id="computed"></div>
+          <button class="button-sm rounded-sm" id="btnCount">0</button>
+          <div class="w-1/8"></div>
+          <label class="w-1/5">Computed:</label>
+          <div id="computed" class="w-1/4"></div>
         </div>     
       </div>
       
@@ -148,16 +148,40 @@
           </div>
         
           <!-- Submit Button -->
-          <div class="col-span-2 flex justify-end">
-            <input type="submit" value="Submit" class="button-sm rounded-sm success">
+          <div class="col-span-2 flex justify-end gap-x-2">
+            <button type="button" id="commandShowToast" class="button rounded-sm">Show Toast</button>
+            <input type="submit" value="Submit" class="button-sm rounded-sm">
           </div>
         </form>    
       </div>
 
       <div>
-        <label for="address">Form Data: </label><br>
-        <textarea class="h-20 w-full rounded-sm control" data-bind="data"></textarea>
+        <label for="address" class="mb-1">Form Data:</label><br>
+        <textarea class="h-20 w-full rounded-sm control" data-bind="data" id="address"></textarea>
       </div>
+
+
+      <div class="toast-item hidden" role="alert" id="toastItem1">
+        <div class="flex items-center rounded-lg shadow-sm p-4 text-black bg-green-200 dark:text-white dark:bg-neutral-600" role="alert">
+          <div class="inline-flex items-center justify-center shrink-0 w-8 h-8 rounded-lg text-green-500 bg-green-100 dark:bg-green-600 dark:text-green-300">
+              <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+              </svg>
+              <span class="sr-only">Check icon</span>
+          </div>
+          <div class="ms-3 text-sm font-normal">Item moved successfully. <span class="time-element"></span></div>
+          <button type="button" class="toast-close ms-auto -mx-1.5 -my-1.5 inline-flex items-center justify-center h-8 w-8 rounded-lg p-1.5 bg-transparent text-black hover:text-neutral-700 hover:bg-green-300 dark:text-neutral-300 dark:hover:text-white dark:hover:bg-neutral-700" aria-label="Close">
+              <span class="sr-only">Close</span>
+              <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+              </svg>
+          </button>
+        </div>
+      </div>
+    
+
+      <div id="toastContainer1"></div>
+    
 
     </div>
 
