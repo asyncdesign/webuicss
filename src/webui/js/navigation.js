@@ -172,7 +172,7 @@ const NavbarInstance = (navbar, defaultOptions) => {
 
 			setSmallDeviceProperties();	
 		}
-		else if (webui.isWindowInBreakPointRange([3, 5])) {
+		else if (webui.isWindowInBreakPointRange([3, 4])) {
 
 			navMenu.addClass("md-device");
 
@@ -270,7 +270,7 @@ const NavbarInstance = (navbar, defaultOptions) => {
 		if (webui.isWindowInBreakPointRange([0, 3])) {
 			subMenu.css("padding", settings.smallDeviceSubMenuPadding);
 		}
-		else if (webui.isWindowInBreakPointRange([3, 5])) {
+		else if (webui.isWindowInBreakPointRange([3, 4])) {
 			subMenu.css("padding", settings.mediumDeviceSubMenuPadding);
 		}
 		else {
@@ -301,7 +301,7 @@ const NavbarInstance = (navbar, defaultOptions) => {
 			
 			navbar.trigger("ui.navbar.submenu.show.before");
 
-			subMenu.expandVertical({ duration: settings.transitionDuration, targetHeight: 0, includePadding: true }, function() {
+			subMenu.expandVertical({ duration: settings.transitionDuration }, function() {
 				navbar.trigger("ui.navbar.submenu.show.after");
 			});
 			
@@ -309,7 +309,7 @@ const NavbarInstance = (navbar, defaultOptions) => {
 		else {
 			navbar.trigger("ui.navbar.submenu.hide.before");
 
-			subMenu.collapseVertical({ duration: settings.transitionDuration, includePadding: true }, function() {
+			subMenu.collapseVertical({ duration: settings.transitionDuration }, function() {
 				navbar.trigger("ui.navbar.submenu.hide.after");
 			});
 
@@ -332,7 +332,7 @@ const NavbarInstance = (navbar, defaultOptions) => {
 
 			navbar.trigger("ui.navbar.menu.show.before");
 			
-			rootItems.expandVertical({ duration: settings.transitionDuration, includeMargin: true }, function() {
+			rootItems.expandVertical({ duration: settings.transitionDuration }, function() {
 				if (!triggered) { 
 					triggered = true;
 					navbar.trigger("ui.navbar.menu.show.after");
@@ -351,7 +351,7 @@ const NavbarInstance = (navbar, defaultOptions) => {
 		else {
 			navbar.trigger("ui.navbar.menu.hide.before");
 		
-			rootItems.collapseVertical({ duration: settings.transitionDuration, includeMargin: true }, function() {
+			rootItems.collapseVertical({ duration: settings.transitionDuration }, function() {
 
 				if (!triggered) { 
 					triggered = true;		
@@ -361,7 +361,7 @@ const NavbarInstance = (navbar, defaultOptions) => {
 			
 	
 			if (webui.isWindowInBreakPointRange([0, 3])) {
-				rootComponents.collapseVertical({ duration: settings.transitionDuration, includeMargin: true }, function() {
+				rootComponents.collapseVertical({ duration: settings.transitionDuration }, function() {
 	
 					if (!triggered) { 
 						triggered = true;	

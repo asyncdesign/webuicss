@@ -373,7 +373,7 @@ const runToggleAction = (selector, toggleContainer, toggleActivator) => {
                 }
                 else {
                   if (transitionDistance) {
-                    el.expandVertical({ duration: transitionDuration, targetHeight: transitionDistance }, () => {
+                    el.expandVertical({ duration: transitionDuration, finalHeight: transitionDistance }, () => {
                       el.trigger("ui.toggleItem.show.after");
 
                       if (activator) {
@@ -1595,11 +1595,10 @@ fn.expandVertical = function (options, callback) {
   let settings = webui.extend({
     duration: 300,
     targetHeight: "auto",
-    initialHeight: null,
     displayType: "block",
-    includePadding: false,
-    includeBorder: false,
-    includeMargin: false
+    includePadding: true,
+    includeBorder: true,
+    includeMargin: true
   }, options),
   
   els = this,
@@ -1607,60 +1606,62 @@ fn.expandVertical = function (options, callback) {
   uiOverflow, 
   uiOriginalHeight, 
   uiTargetHeight,
+  uiPropValue,
+  uiLimit,
 
   targetHeightValue = webui.getValueFromCssSize(settings.targetHeight),
-  targetHeightUnit = webui.getUnitFromCssSize(settings.targetHeight),
-  initialHeightValue = webui.getValueFromCssSize(settings.initialHeight),
-  initialHeightUnit = webui.getUnitFromCssSize(settings.initialHeight);
+  targetHeightUnit = webui.getUnitFromCssSize(settings.targetHeight);
 
 
   for (let i = 0; i < els.length; i++) {
 
-    //console.log(els[i]);
-
     uiElement = webui(els[i]);
     uiOverflow = uiElement.css("overflow");
     uiElement.css("display", settings.displayType).css("overflow", "hidden").css("min-height", "0");
-    uiOriginalHeight = parseFloat(uiElement.css("height"));
+    uiOriginalHeight = parseFloat(uiElement.attr("oh"));
     uiOriginalHeight = uiOriginalHeight > 0 ? uiOriginalHeight : els[i].scrollHeight;
+    uiTargetHeight = targetHeightValue;
+    uiLimit = uiTargetHeight;
+
+    let paddingTop = parseFloat(uiElement.attr("pt"));
+    let paddingBottom = parseFloat(uiElement.attr("pb"));
+    let borderTopWidth = parseFloat(uiElement.attr("bt"));
+    let borderBottomWidth = parseFloat(uiElement.attr("bb"));
+    let marginTop = parseFloat(uiElement.attr("mt"));
+    let marginBottom = parseFloat(uiElement.attr("mb"));
+
+    paddingTop = paddingTop ? paddingTop : parseFloat(uiElement.css("padding-top"));
+    paddingBottom = paddingBottom ? paddingBottom : parseFloat(uiElement.css("padding-bottom"));
+    borderTopWidth = borderTopWidth ? borderTopWidth : parseFloat(uiElement.css("border-top-width"));
+    borderBottomWidth = borderBottomWidth ? borderBottomWidth : parseFloat(uiElement.css("border-bottom-width"));
+    marginTop = marginTop ? marginTop : parseFloat(uiElement.css("margin-top"));
+    marginBottom = marginBottom ? marginBottom : parseFloat(uiElement.css("margin-bottom"));
 
 
-    if (settings.targetHeight === "auto" || !targetHeightValue) {
-      uiTargetHeight = els[i].scrollHeight;
+    if (targetHeightUnit === "auto" || !targetHeightValue) {
 
-      uiElement.css("height", "0");
-      uiOriginalHeight = 0;
+      uiElement.css("height", "auto");
+      uiOriginalHeight = parseFloat(uiElement.css("height"));
+
+      uiPropValue = uiOriginalHeight;
+      uiLimit = 0;
+
     } 
     else if (targetHeightValue) {
-      uiTargetHeight = targetHeightValue;
 
       if (targetHeightUnit === "%") {
-        uiTargetHeight = webui.percentHeightToPx(uiElement, uiTargetHeight)
+        uiTargetHeight = webui.percentHeightToPx(uiElement, uiTargetHeight);
       }
       else if (targetHeightUnit === "rem") {
         uiTargetHeight = webui.remToPx(uiTargetHeight);
       }
-      uiElement.css("height", "0");
-      uiOriginalHeight = 0;
-    }
 
-    if (settings.initialHeight !== null) {
-      uiElement.css("height", initialHeightValue + initialHeightUnit);
-      uiOriginalHeight = initialHeightValue;
-    
-      if (initialHeightUnit === "%") {
-        uiOriginalHeight = webui.percentHeightToPx(uiElement, uiOriginalHeight)
-      }
-      else if (initialHeightUnit === "rem") {
-        uiOriginalHeight = webui.remToPx(uiOriginalHeight);
-      }
+      uiPropValue = uiTargetHeight;
+      uiLimit = 0;
     }
 
 
     if (settings.includePadding) { 
-      const paddingTop = parseFloat(uiElement.css("padding-top"));
-      const paddingBottom = parseFloat(uiElement.css("padding-bottom"));
-  
       if (paddingTop) {
         uiElement.animate("padding-top", 1, paddingTop, 0, settings.duration);
       }
@@ -1669,9 +1670,6 @@ fn.expandVertical = function (options, callback) {
       }
     }
     if (settings.includeBorder) { 
-      const borderTopWidth = parseFloat(uiElement.css("border-top-width"));
-      const borderBottomWidth = parseFloat(uiElement.css("border-bottom-width"));
-  
       if (borderTopWidth) {
         uiElement.animate("border-top-width", 1, borderTopWidth, 0, settings.duration); 
       }
@@ -1680,9 +1678,6 @@ fn.expandVertical = function (options, callback) {
       } 
     }
     if (settings.includeMargin) { 
-      const marginTop = parseFloat(uiElement.css("margin-top"));
-      const marginBottom = parseFloat(uiElement.css("margin-bottom"));
-  
       if (marginTop) {
         uiElement.animate("margin-top", 1, marginTop, 0, settings.duration);
       }
@@ -1691,12 +1686,13 @@ fn.expandVertical = function (options, callback) {
       }
     }
 
-    uiElement.animate("height", 1, (uiTargetHeight - uiOriginalHeight) + "px", uiOriginalHeight, settings.duration, function (el) {
+
+    uiElement.animate("height", 1, uiPropValue + "px", uiLimit, settings.duration, function (el) {
       
       if (settings.targetHeight === "auto") {
         el.css("height", "auto");
       }
-
+      
       el.css("overflow", uiOverflow);
 
       if (callback) {
@@ -1712,12 +1708,11 @@ fn.expandVertical = function (options, callback) {
 fn.expandHorizontal = function (options, callback) {
   let settings = webui.extend({
     duration: 300,
-    targetWidth: "auto",
-    initialWidth: null,
+    targetHeight: "auto",
     displayType: "block",
-    includePadding: false,
-    includeBorder: false,
-    includeMargin: false
+    includePadding: true,
+    includeBorder: true,
+    includeMargin: true
   }, options),
   
   els = this,
@@ -1725,61 +1720,62 @@ fn.expandHorizontal = function (options, callback) {
   uiOverflow, 
   uiOriginalWidth, 
   uiTargetWidth,
+  uiPropValue,
+  uiLimit,
 
   targetWidthValue = webui.getValueFromCssSize(settings.targetWidth),
-  targetWidthUnit = webui.getUnitFromCssSize(settings.targetWidth),
-  initialWidthValue = webui.getValueFromCssSize(settings.initialWidth),
-  initialWidthUnit = webui.getUnitFromCssSize(settings.initialWidth);
+  targetWidthUnit = webui.getUnitFromCssSize(settings.targetWidth);
 
 
   for (let i = 0; i < els.length; i++) {
 
-    //console.log(els[i]);
-
     uiElement = webui(els[i]);
     uiOverflow = uiElement.css("overflow");
     uiElement.css("display", settings.displayType).css("overflow", "hidden").css("min-width", "0");
-    uiOriginalWidth = parseFloat(uiElement.css("width"));
+    uiOriginalWidth = parseFloat(uiElement.attr("ow"));
     uiOriginalWidth = uiOriginalWidth > 0 ? uiOriginalWidth : els[i].scrollWidth;
+    uiTargetWidth = targetWidthValue;
+    uiLimit = uiTargetWidth;
+
+    let paddingLeft = parseFloat(uiElement.attr("pl"));
+    let paddingRight = parseFloat(uiElement.attr("pr"));
+    let borderLeftWidth = parseFloat(uiElement.attr("bl"));
+    let borderRightWidth = parseFloat(uiElement.attr("br"));
+    let marginLeft = parseFloat(uiElement.attr("ml"));
+    let marginRight = parseFloat(uiElement.attr("mr"));
+
+    paddingLeft = paddingLeft ? paddingLeft : parseFloat(uiElement.css("padding-left"));
+    paddingRight = paddingRight ? paddingRight : parseFloat(uiElement.css("padding-right"));
+    borderLeftWidth = borderLeftWidth ? borderLeftWidth : parseFloat(uiElement.css("border-left-width"));
+    borderRightWidth = borderRightWidth ? borderRightWidth : parseFloat(uiElement.css("border-right-width"));
+    marginLeft = marginLeft ? marginLeft : parseFloat(uiElement.css("margin-left"));
+    marginRight = marginRight ? marginRight : parseFloat(uiElement.css("margin-right"));
 
 
-    if (settings.targetWidth === "auto" || !targetWidthValue) {
-      uiTargetWidth = els[i].scrollWidth;
+    if (targetWidthUnit === "auto" || !targetWidthValue) {
 
-      uiElement.css("width", "0");
-      uiOriginalWidth = 0;
-   
+      uiElement.css("width", "auto");
+      uiOriginalWidth = parseFloat(uiElement.css("width"));
+
+      uiPropValue = uiOriginalWidth;
+      uiLimit = 0;
+
     } 
     else if (targetWidthValue) {
-      uiTargetWidth = targetWidthValue;
 
       if (targetWidthUnit === "%") {
-        uiTargetWidth = webui.percentWidthToPx(uiElement, uiTargetWidth)
+        uiTargetWidth = webui.percentWidthToPx(uiElement, uiTargetWidth);
       }
       else if (targetWidthUnit === "rem") {
         uiTargetWidth = webui.remToPx(uiTargetWidth);
       }
-      uiElement.css("width", "0");
-      uiOriginalWidth = 0;
-    }
 
-    if (settings.initialWidth !== null) {
-      uiElement.css("width", initialWidthValue + initialWidthUnit);
-      uiOriginalWidth = initialWidthValue;
-    
-      if (initialWidthUnit === "%") {
-        uiOriginalWidth = webui.percentWidthToPx(uiElement, uiOriginalWidth)
-      }
-      else if (initialWidthUnit === "rem") {
-        uiOriginalWidth = webui.remToPx(uiOriginalWidth);
-      }
+      uiPropValue = uiTargetWidth;
+      uiLimit = 0;
     }
 
 
     if (settings.includePadding) { 
-      const paddingLeft = parseFloat(uiElement.css("padding-left"));
-      const paddingRight = parseFloat(uiElement.css("padding-right"));
-  
       if (paddingLeft) {
         uiElement.animate("padding-left", 1, paddingLeft, 0, settings.duration);
       }
@@ -1788,9 +1784,6 @@ fn.expandHorizontal = function (options, callback) {
       }
     }
     if (settings.includeBorder) { 
-      const borderLeftWidth = parseFloat(uiElement.css("border-left-width"));
-      const borderRightWidth = parseFloat(uiElement.css("border-right-width"));
-  
       if (borderLeftWidth) {
         uiElement.animate("border-left-width", 1, borderLeftWidth, 0, settings.duration); 
       }
@@ -1799,9 +1792,6 @@ fn.expandHorizontal = function (options, callback) {
       } 
     }
     if (settings.includeMargin) { 
-      const marginLeft = parseFloat(uiElement.css("margin-left"));
-      const marginRight = parseFloat(uiElement.css("margin-right"));
-  
       if (marginLeft) {
         uiElement.animate("margin-left", 1, marginLeft, 0, settings.duration);
       }
@@ -1810,12 +1800,13 @@ fn.expandHorizontal = function (options, callback) {
       }
     }
 
-    uiElement.animate("width", 1, (uiTargetWidth - uiOriginalWidth) + "px", uiOriginalWidth, settings.duration, function (el) {
+
+    uiElement.animate("width", 1, uiPropValue + "px", uiLimit, settings.duration, function (el) {
       
       if (settings.targetWidth === "auto") {
         el.css("width", "auto");
       }
-
+      
       el.css("overflow", uiOverflow);
 
       if (callback) {
@@ -1830,10 +1821,10 @@ fn.expandHorizontal = function (options, callback) {
 fn.collapseVertical = function (options, callback) {
   let settings = webui.extend({
     duration: 300,
-    targetHeight: "auto",
-    includePadding: false,
-    includeBorder: false,
-    includeMargin: false
+    targetHeight: 0,
+    includePadding: true,
+    includeBorder: true,
+    includeMargin: true
   }, options),
   
   els = this,
@@ -1845,85 +1836,83 @@ fn.collapseVertical = function (options, callback) {
   targetHeightValue = webui.getValueFromCssSize(settings.targetHeight),
   targetHeightUnit = webui.getUnitFromCssSize(settings.targetHeight);
 
-
   for (let i = 0; i < els.length; i++) {
-
-    //console.log(els[i]);
     
     uiElement = webui(els[i]);
     uiOverflow = uiElement.css("overflow");
     uiElement.css("overflow", "hidden").css("min-height", "0");
     uiCurrentHeight = parseFloat(uiElement.css("height"));
     uiCurrentHeight = uiCurrentHeight > 0 ? uiCurrentHeight : els[i].scrollHeight;
+    uiTargetHeight = targetHeightValue;
+    uiElement.attr("oh", uiCurrentHeight);
+
+    const paddingTop = parseFloat(uiElement.css("padding-top"));
+    const paddingBottom = parseFloat(uiElement.css("padding-bottom"));
+    const borderTopWidth = parseFloat(uiElement.css("border-top-width"));
+    const borderBottomWidth = parseFloat(uiElement.css("border-bottom-width"));
+    const marginTop = parseFloat(uiElement.css("margin-top"));
+    const marginBottom = parseFloat(uiElement.css("margin-bottom"));
 
 
-    if (settings.targetHeight === "auto") {
-      uiTargetHeight = 0;
+    if (targetHeightUnit === "auto") {
+
+      uiElement.css("height", "auto");
+      uiTargetHeight = parseFloat(uiElement.css("height"));
+
     } 
     else if (targetHeightValue) {
-      uiTargetHeight = targetHeightValue;
 
       if (targetHeightUnit === "%") {
         uiTargetHeight = webui.percentHeightToPx(uiElement, uiTargetHeight)
       }
       else if (targetHeightUnit === "rem") {
         uiTargetHeight = webui.remToPx(uiTargetHeight);
-      }
+      }     
     }
+
+    uiElement.attr("pt", paddingTop);
+    uiElement.attr("pb", paddingBottom);
+
+    uiElement.attr("bt", borderTopWidth);
+    uiElement.attr("bb", borderBottomWidth);
+
+    uiElement.attr("mt", marginTop);
+    uiElement.attr("mb", marginBottom);
 
 
     if (settings.includePadding) { 
-      const paddingTop = parseFloat(uiElement.css("padding-top"));
-      const paddingBottom = parseFloat(uiElement.css("padding-bottom"));
-  
       if (paddingTop) {
-        uiElement.animate("padding-top", 0, paddingTop, 0, settings.duration, (el) => {
-          el.css("padding-top", paddingTop + "px");  
-        });
+        uiElement.animate("padding-top", 0, paddingTop, 0, settings.duration);
       }
       if (paddingBottom) {
-        uiElement.animate("padding-bottom", 0, paddingBottom, 0, settings.duration, (el) => {  
-          el.css("padding-bottom", paddingBottom + "px");
-        });
+        uiElement.animate("padding-bottom", 0, paddingBottom, 0, settings.duration);
       }
     }
     if (settings.includeBorder) { 
-      const borderTopWidth = parseFloat(uiElement.css("border-top-width"));
-      const borderBottomWidth = parseFloat(uiElement.css("border-bottom-width"));
-  
       if (borderTopWidth) {
-        uiElement.animate("border-top-width", 0, borderTopWidth, 0, settings.duration, (el) => {       
-          el.css("border-top-width", borderTopWidth + "px");
-        }); 
+        uiElement.animate("border-top-width", 0, borderTopWidth, 0, settings.duration); 
       }
       if (borderBottomWidth) {
-        uiElement.animate("border-bottom-width", 0, borderBottomWidth, 0, settings.duration, (el) => {   
-          el.css("border-bottom-width", borderBottomWidth + "px");  
-        });
+        uiElement.animate("border-bottom-width", 0, borderBottomWidth, 0, settings.duration);
       }  
     }
     if (settings.includeMargin) { 
-      const marginTop = parseFloat(uiElement.css("margin-top"));
-      const marginBottom = parseFloat(uiElement.css("margin-bottom"));
-  
       if (marginTop) {
-        uiElement.animate("margin-top", 0, marginTop, 0, settings.duration, (el) => {  
-          el.css("margin-top", marginTop + "px");
-        });
+        uiElement.animate("margin-top", 0, marginTop, 0, settings.duration);
       }
       if (marginBottom) {
-        uiElement.animate("margin-bottom", 0, marginBottom, 0, settings.duration, (el) => {      
-          el.css("margin-bottom", marginBottom + "px");   
-        });
+        uiElement.animate("margin-bottom", 0, marginBottom, 0, settings.duration);
       }
     }
 
     uiElement.animate("height", 0, (uiCurrentHeight - uiTargetHeight) + "px", uiTargetHeight, settings.duration, function (el) {
+
       el.css("overflow", uiOverflow);
 
-      if (!targetHeightValue) {
+      if (!settings.targetHeight) {
         el.css("display", "none");
       }
+
       if (callback) {
         callback(el);
       }
@@ -1933,13 +1922,14 @@ fn.collapseVertical = function (options, callback) {
   return els;
 };
 
+
 fn.collapseHorizontal = function (options, callback) {
   let settings = webui.extend({
     duration: 300,
-    targetWidth: "auto",
-    includePadding: false,
-    includeBorder: false,
-    includeMargin: false
+    targetHeight: 0,
+    includePadding: true,
+    includeBorder: true,
+    includeMargin: true
   }, options),
   
   els = this,
@@ -1951,85 +1941,83 @@ fn.collapseHorizontal = function (options, callback) {
   targetWidthValue = webui.getValueFromCssSize(settings.targetWidth),
   targetWidthUnit = webui.getUnitFromCssSize(settings.targetWidth);
 
-
   for (let i = 0; i < els.length; i++) {
-
-    //console.log(els[i]);
-
+    
     uiElement = webui(els[i]);
     uiOverflow = uiElement.css("overflow");
     uiElement.css("overflow", "hidden").css("min-width", "0");
     uiCurrentWidth = parseFloat(uiElement.css("width"));
     uiCurrentWidth = uiCurrentWidth > 0 ? uiCurrentWidth : els[i].scrollWidth;
+    uiTargetWidth = targetWidthValue;
+    uiElement.attr("ow", uiCurrentWidth);
+
+    const paddingLeft = parseFloat(uiElement.css("padding-left"));
+    const paddingRight = parseFloat(uiElement.css("padding-right"));
+    const borderLeftWidth = parseFloat(uiElement.css("border-left-width"));
+    const borderRightWidth = parseFloat(uiElement.css("border-right-width"));
+    const marginLeft = parseFloat(uiElement.css("margin-left"));
+    const marginRight = parseFloat(uiElement.css("margin-right"));
 
 
-    if (settings.targetWidth === "auto") {
-      uiTargetWidth = 0;
+    if (targetWidthUnit === "auto") {
+
+      uiElement.css("width", "auto");
+      uiTargetWidth = parseFloat(uiElement.css("width"));
+
     } 
     else if (targetWidthValue) {
-      uiTargetWidth = targetWidthValue;
 
       if (targetWidthUnit === "%") {
         uiTargetWidth = webui.percentWidthToPx(uiElement, uiTargetWidth)
       }
       else if (targetWidthUnit === "rem") {
         uiTargetWidth = webui.remToPx(uiTargetWidth);
-      }
+      }     
     }
+
+    uiElement.attr("pl", paddingLeft);
+    uiElement.attr("pr", paddingRight);
+
+    uiElement.attr("bl", borderLeftWidth);
+    uiElement.attr("br", borderRightWidth);
+
+    uiElement.attr("ml", marginLeft);
+    uiElement.attr("mr", marginRight);
 
 
     if (settings.includePadding) { 
-      const paddingLeft = parseFloat(uiElement.css("padding-left"));
-      const paddingRight = parseFloat(uiElement.css("padding-right"));
-  
       if (paddingLeft) {
-        uiElement.animate("padding-left", 0, paddingLeft, 0, settings.duration, (el) => {
-          el.css("padding-left", paddingLeft + "px");  
-        });
+        uiElement.animate("padding-left", 0, paddingLeft, 0, settings.duration);
       }
       if (paddingRight) {
-        uiElement.animate("padding-right", 0, paddingRight, 0, settings.duration, (el) => {  
-          el.css("padding-right", paddingRight + "px");
-        });
+        uiElement.animate("padding-right", 0, paddingRight, 0, settings.duration);
       }
     }
     if (settings.includeBorder) { 
-      const borderLeftWidth = parseFloat(uiElement.css("border-left-width"));
-      const borderRightWidth = parseFloat(uiElement.css("border-right-width"));
-  
       if (borderLeftWidth) {
-        uiElement.animate("border-left-width", 0, borderLeftWidth, 0, settings.duration, (el) => {       
-          el.css("border-left-width", borderLeftWidth + "px");
-        }); 
+        uiElement.animate("border-left-width", 0, borderLeftWidth, 0, settings.duration); 
       }
       if (borderRightWidth) {
-        uiElement.animate("border-right-width", 0, borderRightWidth, 0, settings.duration, (el) => {   
-          el.css("border-right-width", borderRightWidth + "px");  
-        });
+        uiElement.animate("border-right-width", 0, borderRightWidth, 0, settings.duration);
       }  
     }
     if (settings.includeMargin) { 
-      const marginLeft = parseFloat(uiElement.css("margin-left"));
-      const marginRight = parseFloat(uiElement.css("margin-right"));
-  
       if (marginLeft) {
-        uiElement.animate("margin-left", 0, marginLeft, 0, settings.duration, (el) => {  
-          el.css("margin-left", marginLeft + "px");
-        });
+        uiElement.animate("margin-left", 0, marginLeft, 0, settings.duration);
       }
       if (marginRight) {
-        uiElement.animate("margin-right", 0, marginRight, 0, settings.duration, (el) => {      
-          el.css("margin-right", marginRight + "px");   
-        });
+        uiElement.animate("margin-right", 0, marginRight, 0, settings.duration);
       }
     }
 
     uiElement.animate("width", 0, (uiCurrentWidth - uiTargetWidth) + "px", uiTargetWidth, settings.duration, function (el) {
+
       el.css("overflow", uiOverflow);
 
-      if (!targetWidthValue) {
+      if (!settings.targetWidth) {
         el.css("display", "none");
       }
+
       if (callback) {
         callback(el);
       }
@@ -2096,7 +2084,7 @@ fn.animate = function (animateWhat, delta, propertyValue, limitValue, duration, 
     pu = animateWhat !== "opacity" ? propertyValue ? webui.getUnitFromCssSize(propertyValue) : "px" : "",
     lv = limitValue ? webui.getValueFromCssSize(limitValue) : 0,
     timeFraction = null, progress = null;
-
+    
   let start = performance.now();
 
   requestAnimationFrame(function animate(time) {
@@ -2200,17 +2188,6 @@ webui.percentWidthToPx = (element, percentValue) => {
   return parseFloat(element.parent().css("width")) / 100 * percentValue;
 };
 
-webui.getStyleValue = (propertyName) => {
-
-  if (propertyName) {
-    let styles = getComputedStyle(document.documentElement);
-    let value = styles.getPropertyValue(propertyName); 
-    
-    return value ? value : undefined;
-  }
-  return undefined;
-}
-
 webui.getValueFromCssSize = (cssSize) => {
   if (cssSize && isString(cssSize)) {
     let value = parseFloat(cssSize.replace(/[^0-9.]+/gi, ""));	
@@ -2229,6 +2206,13 @@ webui.getUnitFromCssSize = (cssSize) => {
     return value.length ? value : "px";		
   }
   return "px";
+};
+
+webui.fromCssSize = (cssSize) => {
+  return {
+    value: webui.getValueFromCssSize (cssSize),
+    unit: webui.getUnitFromCssSize (cssSize)
+  }
 };
 
 webui.getAvgWidth = (elements) => {
@@ -2289,6 +2273,17 @@ webui.getMaxHeight = (elements) => {
         }
     }
     return max;
+  }
+  return undefined;
+};
+
+webui.getStyleValue = (propertyName) => {
+
+  if (propertyName) {
+    let styles = getComputedStyle(document.documentElement);
+    let value = styles.getPropertyValue(propertyName); 
+    
+    return value ? value : undefined;
   }
   return undefined;
 };

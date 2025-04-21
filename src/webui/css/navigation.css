@@ -4,7 +4,7 @@
   width: 100%;
   line-height: 2.25rem;
   height: 2.25rem;
-  z-index: 130;
+  z-index: var(--layer-2);
 }
 .nav.nav-xs {
   line-height: 1.5rem;

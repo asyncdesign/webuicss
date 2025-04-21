@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="./src/assets/images/favicon.ico">
+  <title>Document</title>
+
+</head>
+<body class="dark flex justify-center text-sm">
+
+  <div class="w-11/12 sm:w-10/12 md:w-9/12 lg:w-8/12 xl:w-7/12">
+
+    <div class="p-4 mb-5">
+      
+  
+
+        <div class="flex gap-x-2 mb-10">
+          <button type="button" id="commandExpandVertical" class="button-sm button-info rounded-sm col-spacing-right-xs">Expand Vertical</button>
+          <button type="button" id="commandCollapseVertical" class="button-sm button-info rounded-sm col-spacing-right-xs">Collapse Vertical</button>
+          <button type="button" id="commandExpandHorizontal" class="button-sm button-info rounded-sm col-spacing-right-xs">Expand Horizontal</button>
+          <button type="button" id="commandCollapseHorizontal" class="button-sm button-info rounded-sm col-spacing-right-xs">Collapse Horizontal</button>
+        </div>
+
+        <div class="h-80 bg-white">
+          <div class="bg-emerald-400 w-40 h-40 p-4 border-8 border-fuchsia-600" id="expandCollapseContainer">Sample content for testing.</div>				
+        </div>
+
+  
+
+    </div>
+
+  </div>
+
+
+  <script type="module">
+
+    import webui from "@asyncdesign/webui";
+
+    
+    webui.ready( () => {
+
+			// Expand /collapse transitions
+
+			webui("#commandExpandVertical").click( () => {
+
+        webui("#expandCollapseContainer").expandVertical({ 
+            duration: 1000, 
+            targetHeight: "10rem",
+            displayType: "grid",
+            includePadding: true,
+            includeBorder: true,
+            includeMargin: true
+          }, function() {
+        });	
+
+      });
+
+      webui("#commandCollapseVertical").click( () => { 
+
+        webui("#expandCollapseContainer").collapseVertical({ 
+            duration: 1000, 
+            targetHeight: "10%",
+            includePadding: true,
+            includeBorder: true,
+            includeMargin: true
+          }, function() {
+        });
+
+      });
+
+      webui("#commandExpandHorizontal").click( () => { 
+
+        webui("#expandCollapseContainer").expandHorizontal({ 
+            duration: 1000, 
+            targetWidth: "auto",
+            displayType: "block",
+            includePadding: false,
+            includeBorder: false,
+            includeMargin: false
+          }, function() {
+        });	
+
+      });
+
+      webui("#commandCollapseHorizontal").click( () => { 
+
+        webui("#expandCollapseContainer").collapseHorizontal({ 
+            duration: 1000, 
+            targetWidth: "75%",
+            includePadding: true,
+            includeBorder: true,
+            includeMargin: true
+          }, function() {
+        });
+
+      });
+
+    });
+
+  </script>
+  
+</body>
+</html>
