@@ -1652,6 +1652,9 @@ fn.expandVertical = function (options, callback) {
       if (targetHeightUnit === "%") {
         uiTargetHeight = webui.percentHeightToPx(uiElement, uiTargetHeight);
       }
+      else if (targetHeightUnit === "vh") {
+        uiTargetHeight = webui.viewportHeightToPx(uiTargetHeight);
+      }
       else if (targetHeightUnit === "rem") {
         uiTargetHeight = webui.remToPx(uiTargetHeight);
       }
@@ -1766,6 +1769,9 @@ fn.expandHorizontal = function (options, callback) {
       if (targetWidthUnit === "%") {
         uiTargetWidth = webui.percentWidthToPx(uiElement, uiTargetWidth);
       }
+      else if (targetWidthUnit === "vw") {
+        uiTargetWidth = webui.viewportWidthToPx(uiTargetWidth);
+      }
       else if (targetWidthUnit === "rem") {
         uiTargetWidth = webui.remToPx(uiTargetWidth);
       }
@@ -1864,6 +1870,9 @@ fn.collapseVertical = function (options, callback) {
 
       if (targetHeightUnit === "%") {
         uiTargetHeight = webui.percentHeightToPx(uiElement, uiTargetHeight)
+      }
+      else if (targetHeightUnit === "vh") {
+        uiTargetHeight = webui.viewportHeightToPx(uiTargetHeight);
       }
       else if (targetHeightUnit === "rem") {
         uiTargetHeight = webui.remToPx(uiTargetHeight);
@@ -1969,6 +1978,9 @@ fn.collapseHorizontal = function (options, callback) {
 
       if (targetWidthUnit === "%") {
         uiTargetWidth = webui.percentWidthToPx(uiElement, uiTargetWidth)
+      }
+      else if (targetWidthUnit === "vw") {
+        uiTargetWidth = webui.viewportWidthToPx(uiTargetWidth);
       }
       else if (targetWidthUnit === "rem") {
         uiTargetWidth = webui.remToPx(uiTargetWidth);
@@ -2186,6 +2198,14 @@ webui.percentHeightToPx = (element, percentValue) => {
 
 webui.percentWidthToPx = (element, percentValue) => {
   return parseFloat(element.parent().css("width")) / 100 * percentValue;
+};
+
+webui.viewportHeightToPx = (vhValue) => {
+  return window.innerHeight / 100 * webui.getValueFromCssSize(vhValue);
+};
+
+webui.viewportWidthToPx = (vwValue) => {
+  return window.innerWidth / 100 * webui.getValueFromCssSize(vwValue);
 };
 
 webui.getValueFromCssSize = (cssSize) => {
