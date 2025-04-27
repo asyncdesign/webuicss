@@ -6,15 +6,15 @@
   <link rel="icon" href="/assets/favicon-J-vPNcG7.ico">
   <title>Document</title>
 
-  <script type="module" crossorigin src="/assets/index-CMbLOfT0.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-CpwFKMZZ.css">
+  <script type="module" crossorigin src="/assets/index-C4YzoVyT.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-_53ZilGh.css">
 </head>
 <body class="dark flex justify-center text-sm @container">
 
   <div class="w-[90cqw] xl:w-[60cqw]">
     
     <div class="flex justify-center mt-5 mb-5">
-      <img src="/assets/webuicss-logo-mid-blue-DKRMD_Vo.png" width="300" height="75" alt="Media" class="zoom-image" />
+      <img src="/assets/webuicss-logo-mid-blue-DKRMD_Vo.png" width="300" height="75" alt="Media" class="hover:scale-120 transition duration-1000" />
     </div>
 
     <p class="text-2xl text-center">A CSS and JavaScript framework</p>
@@ -157,9 +157,96 @@
 
       <div>
         <label for="address" class="mb-1">Form Data:</label><br>
-        <textarea class="h-20 w-full rounded-sm control" data-bind="data" id="address"></textarea>
+        <textarea class="h-20 w-full rounded-sm control mb-5" data-bind="data" id="address"></textarea>
       </div>
 
+      <div class="border border-neutral-700 rounded-md overflow-clip mb-5">
+
+        <table class="table bordered striped hover responsive w-full col-padding-sm text-sm">
+          <thead class="text-left">
+            <tr>
+              <th class="width-sm">
+                #
+              </th>
+              <th>
+                First name
+              </th>
+              <th>
+                Last name
+              </th>
+              <th class="width-one-half">
+                Email
+              </th>
+            </tr>
+          </thead>
+          <tbody class="color-default">
+            <tr>
+              <td data-th="#">
+                1
+              </td>
+              <td data-th="First name">
+                John
+              </td>
+              <td data-th="Last name">
+                Doe
+              </td>
+              <td data-th="Email">
+                johndoe@hotmail.com
+              </td>
+            </tr>
+            <tr>
+              <td data-th="#">
+                2
+              </td>
+              <td data-th="First name">
+                Aisha
+              </td>
+              <td data-th="Last name">
+                Craig
+              </td>
+              <td data-th="Email">
+                aishacraig@gmail.com
+              </td>
+            </tr>
+            <tr>
+              <td data-th="#">
+                3
+              </td>
+              <td data-th="First name">
+                Nicolas
+              </td>
+              <td data-th="Last name">
+                Hughes
+              </td>
+              <td data-th="Email">
+                nickhughes@gmail.com
+              </td>
+            </tr>
+            <tr>
+              <td data-th="#">
+                4
+              </td>
+              <td data-th="First name">
+                Nyasia
+              </td>
+              <td data-th="Last name">
+                Santiago
+              </td>
+              <td data-th="Email">
+                nsantiago@hotmail.com
+              </td>
+            </tr>
+          </tbody>
+          <tfoot class="color-default text-sm">
+            <tr>
+              <td colspan="4" class="rounded-b-md">
+                Footer
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+
+      </div>
 
       <div class="toast-item hidden" role="alert" id="toastItem1">
         <div class="flex items-center rounded-lg shadow-sm p-4 text-black bg-green-200 dark:text-white dark:bg-neutral-600" role="alert">

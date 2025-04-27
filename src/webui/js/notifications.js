@@ -88,6 +88,7 @@ const ToastInstance = (container, defaultOptions) => {
 
 	return {
 		showToastItem: () => showToastItem(),
+    hideToastItem: (toastItem) => hideToastItem(toastItem),
     updateInstance: (newOptions) => updateInstance(newOptions)
 	};
 
@@ -116,6 +117,7 @@ export const toast = (selector, options) => {
 
   return {
     showToast: () => control.showToastItem(),
+    hideToast: (toastItem) => control.hideToastItem(toastItem),
 		update: (newOptions) => control.updateInstance(newOptions)
 	};
 

@@ -44,8 +44,9 @@ const NavbarInstance = (navbar, defaultOptions) => {
 			navSubMenus.css("background", settings.smallDeviceSubMenuBackground);
 		}
 
-		navMenu.children(".nav-item").last().css("margin-bottom", "1rem");
-		navMenu.find(".nav-sub-menu").children().last().css("margin-bottom", "0.5rem");
+		navActivators.forEach((activator) => {
+			webui(activator).siblings(".nav-sub-menu").children().first().css("margin-top", settings.smallDeviceSubMenuSpacing);
+		})
 	};
 
 	const setMediumDeviceProperties = () => {
@@ -77,8 +78,9 @@ const NavbarInstance = (navbar, defaultOptions) => {
 			navSubMenus.css("background", settings.mediumDeviceSubMenuBackground);
 		}
 
-		navMenu.children(".nav-item").last().css("margin-bottom", "1rem");
-		navMenu.find(".nav-sub-menu").children().last().css("margin-bottom", "0.5rem");
+		navActivators.forEach((activator) => {
+			webui(activator).siblings(".nav-sub-menu").children().first().css("margin-top", settings.mediumDeviceSubMenuSpacing);
+		})		
 	};
 
 	const setLargeDeviceProperties = () => {
@@ -118,8 +120,9 @@ const NavbarInstance = (navbar, defaultOptions) => {
 			navSubMenus.css("background", settings.largeDeviceSubMenuBackground);
 		}
 
-		navMenu.children(".nav-item").last().css("margin-bottom", "0");
-		navMenu.find(".nav-sub-menu").children().last().css("margin-bottom", "0.5rem");
+		navActivators.forEach((activator) => {
+			webui(activator).siblings(".nav-sub-menu").children().first().css("margin-top", settings.largeDeviceSubMenuSpacing);
+		})
 
 		if (settings.largeDeviceSubMenuReverse) {
 			let totalWidth = parseFloat(navSubMenus.last().css("right", settings.largeDeviceMenuOffset).css("right"));
@@ -162,7 +165,7 @@ const NavbarInstance = (navbar, defaultOptions) => {
 
 		navMenu.removeClass("md-device").removeClass("lg-device")
 
-		if (webui.isWindowInBreakPointRange([0, 3])) {
+		if (webui.isWindowInBreakPointRange([0, 2])) {
 
 			navToggle.siblings(".nav-item, .nav-component").hide();
 			navToggler.removeClass("active");
@@ -172,7 +175,7 @@ const NavbarInstance = (navbar, defaultOptions) => {
 
 			setSmallDeviceProperties();	
 		}
-		else if (webui.isWindowInBreakPointRange([3, 4])) {
+		else if (webui.isWindowInBreakPointRange([2, 4])) {
 
 			navMenu.addClass("md-device");
 
@@ -224,6 +227,7 @@ const NavbarInstance = (navbar, defaultOptions) => {
 		if (newSettings.largeDeviceMenuOffset !== undefined) { settings.largeDeviceMenuOffset = newSettings.largeDeviceMenuOffset; }
 		if (newSettings.largeDeviceSubMenuOffset !== undefined) { settings.largeDeviceSubMenuOffset = newSettings.largeDeviceSubMenuOffset; }	
 		if (newSettings.largeDeviceSubMenuReverse !== undefined) { settings.largeDeviceSubMenuReverse = newSettings.largeDeviceSubMenuReverse; }
+		if (newSettings.largeDeviceMenuHover !== undefined) { settings.largeDeviceMenuHover = newSettings.largeDeviceMenuHover; }
 
 		if (newSettings.smallDeviceLogoColor !== undefined) { settings.smallDeviceLogoColor = newSettings.smallDeviceLogoColor; }
 		if (newSettings.smallDeviceLogoBackground !== undefined) { settings.smallDeviceLogoBackground = newSettings.smallDeviceLogoBackground; }
@@ -267,16 +271,6 @@ const NavbarInstance = (navbar, defaultOptions) => {
 		navActivator.find(".nav-indicator").toggleClass("active");
 
 
-		if (webui.isWindowInBreakPointRange([0, 3])) {
-			subMenu.css("padding", settings.smallDeviceSubMenuPadding);
-		}
-		else if (webui.isWindowInBreakPointRange([3, 4])) {
-			subMenu.css("padding", settings.mediumDeviceSubMenuPadding);
-		}
-		else {
-			subMenu.css("padding", settings.largeDeviceSubMenuPadding);
-		}
-
 		if (navActivator.hasClass("active")) {
 
 			let siblingActivators = navActivator.parent().siblings().children(".nav-activator");
@@ -316,6 +310,61 @@ const NavbarInstance = (navbar, defaultOptions) => {
 		}		
 	
 	});
+
+
+	navActivators.hover(function(e) {
+		e.preventDefault();
+
+		if (settings.largeDeviceMenuHover) {
+
+			let navActivator = webui(this),
+				subMenu = navActivator.nextSibling(".nav-sub-menu");
+
+			navActivator.addClass("active");
+			navActivator.find(".nav-indicator").addClass("active");
+
+
+			if (navActivator.hasClass("active")) {
+
+				let siblingActivators = navActivator.parent().siblings().children(".nav-activator");
+
+				for (let i = 0; i < siblingActivators.length; i++) {
+
+					let siblingActivator = webui(siblingActivators[i]);
+
+					if (siblingActivator.hasClass("active")) {
+
+						navbar.trigger("ui.navbar.submenu.hide.before");
+
+						siblingActivator.removeClass("active");
+						siblingActivator.find(".nav-indicator").removeClass("active");
+		
+						siblingActivator.nextSibling(".nav-sub-menu")
+						.collapseVertical({ duration: settings.transitionDuration }, function() {
+							navbar.trigger("ui.navbar.submenu.hide.after");
+						});
+					}
+				}
+				
+				navbar.trigger("ui.navbar.submenu.show.before");
+
+				subMenu.expandVertical({ duration: settings.transitionDuration }, function() {
+					navbar.trigger("ui.navbar.submenu.show.after");
+				});
+				
+			}
+			else {
+				navbar.trigger("ui.navbar.submenu.hide.before");
+
+				subMenu.collapseVertical({ duration: settings.transitionDuration }, function() {
+					navbar.trigger("ui.navbar.submenu.hide.after");
+				});
+			}
+				
+		}	
+	
+	});
+
 	
 	navToggler.click(function(e) {
 		e.preventDefault();
@@ -339,7 +388,7 @@ const NavbarInstance = (navbar, defaultOptions) => {
 				}
 			});
 
-			if (webui.isWindowInBreakPointRange([0, 3])) {
+			if (webui.isWindowInBreakPointRange([0, 2])) {
 				rootComponents.expandVertical({ duration: settings.transitionDuration }, function() {
 					if (!triggered) { 
 						triggered = true;
@@ -360,7 +409,7 @@ const NavbarInstance = (navbar, defaultOptions) => {
 			});
 			
 	
-			if (webui.isWindowInBreakPointRange([0, 3])) {
+			if (webui.isWindowInBreakPointRange([0, 2])) {
 				rootComponents.collapseVertical({ duration: settings.transitionDuration }, function() {
 	
 					if (!triggered) { 
@@ -406,6 +455,7 @@ export const navBar = (selector, options) => {
 		largeDeviceMenuSpacing: 0,
 		largeDeviceMenuOffset: 0,
 		largeDeviceSubMenuReverse: false,
+		largeDeviceMenuHover: false,
 		largeDeviceSubMenuGap: "0.125rem",
 		largeDeviceSubMenuPadding: "0.5rem 1rem",
 		largeDeviceSubMenuSpacing: "0.7rem",

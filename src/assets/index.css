@@ -33,11 +33,12 @@
   --control-background-active: var(--color-sky-900);
 
   --data-text: var(--color-black);
+  --data-text-hover: var(--color-black);
   --data-border: var(--color-neutral-300);
   --data-background: var(--color-sky-50);
-  --data-heading-background: var(--color-sky-200);
+  --data-heading-background: var(--color-sky-100);
   --data-alternate-background: var(--color-sky-100);
-  --data-background-hover: var(--color-sky-300);
+  --data-background-hover: var(--color-sky-200);
   --data-background-focus: var(--color-sky-400);
   --data-background-active: var(--color-sky-400);
 
@@ -139,6 +140,7 @@
   --input-background-focus: var(--color-neutral-500);
 
   --control-text: var(--color-white);
+  --data-text-hover: var(--color-white);
   --control-border: var(--color-blue-700);
   --control-background: var(--color-blue-700);
   --control-background-secondary: var(--color-blue-800);
@@ -149,8 +151,8 @@
   --control-background-active: var(--color-blue-800);
 
   --data-text: var(--color-white);
-  --data-border: var(--color-neutral-400);
-  --data-background: var(--color-neutral-600);
+  --data-border: var(--color-neutral-500);
+  --data-background: var(--color-neutral-700);
   --data-heading-background: var(--color-neutral-700);
   --data-alternate-background: var(--color-neutral-600);
   --data-background-hover: var(--color-neutral-800);

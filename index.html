@@ -12,7 +12,7 @@
   <div class="w-[90cqw] xl:w-[60cqw]">
     
     <div class="flex justify-center mt-5 mb-5">
-      <img src="./src/assets/images/webuicss-logo-mid-blue.png" width="300" height="75" alt="Media" class="zoom-image" />
+      <img src="./src/assets/images/webuicss-logo-mid-blue.png" width="300" height="75" alt="Media" class="hover:scale-120 transition duration-1000" />
     </div>
 
     <p class="text-2xl text-center">A CSS and JavaScript framework</p>
@@ -155,9 +155,96 @@
 
       <div>
         <label for="address" class="mb-1">Form Data:</label><br>
-        <textarea class="h-20 w-full rounded-sm control" data-bind="data" id="address"></textarea>
+        <textarea class="h-20 w-full rounded-sm control mb-5" data-bind="data" id="address"></textarea>
       </div>
 
+      <div class="border border-neutral-700 rounded-md overflow-clip mb-5">
+
+        <table class="table bordered striped hover responsive w-full col-padding-sm text-sm">
+          <thead class="text-left">
+            <tr>
+              <th class="width-sm">
+                #
+              </th>
+              <th>
+                First name
+              </th>
+              <th>
+                Last name
+              </th>
+              <th class="width-one-half">
+                Email
+              </th>
+            </tr>
+          </thead>
+          <tbody class="color-default">
+            <tr>
+              <td data-th="#">
+                1
+              </td>
+              <td data-th="First name">
+                John
+              </td>
+              <td data-th="Last name">
+                Doe
+              </td>
+              <td data-th="Email">
+                johndoe@hotmail.com
+              </td>
+            </tr>
+            <tr>
+              <td data-th="#">
+                2
+              </td>
+              <td data-th="First name">
+                Aisha
+              </td>
+              <td data-th="Last name">
+                Craig
+              </td>
+              <td data-th="Email">
+                aishacraig@gmail.com
+              </td>
+            </tr>
+            <tr>
+              <td data-th="#">
+                3
+              </td>
+              <td data-th="First name">
+                Nicolas
+              </td>
+              <td data-th="Last name">
+                Hughes
+              </td>
+              <td data-th="Email">
+                nickhughes@gmail.com
+              </td>
+            </tr>
+            <tr>
+              <td data-th="#">
+                4
+              </td>
+              <td data-th="First name">
+                Nyasia
+              </td>
+              <td data-th="Last name">
+                Santiago
+              </td>
+              <td data-th="Email">
+                nsantiago@hotmail.com
+              </td>
+            </tr>
+          </tbody>
+          <tfoot class="color-default text-sm">
+            <tr>
+              <td colspan="4" class="rounded-b-md">
+                Footer
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+
+      </div>
 
       <div class="toast-item hidden" role="alert" id="toastItem1">
         <div class="flex items-center rounded-lg shadow-sm p-4 text-black bg-green-200 dark:text-white dark:bg-neutral-600" role="alert">
@@ -189,7 +276,6 @@
   <script type="module">
 
     import webui from "@asyncdesign/webui";
-    import { zoom } from "@asyncdesign/effects";
     import { navBar, navToggler, navIndicator } from "@asyncdesign/navigation";
     import { toast } from "@asyncdesign/notifications";  
 
@@ -211,13 +297,16 @@
         mediumDeviceSubMenuSpacing: "0.4rem",
         mediumDeviceSubMenuGap: "0.2rem",
 
-        largeDeviceSubMenuPadding: "0.5rem 1rem",	
-        largeDeviceSubMenuSpacing: "0.7rem",
         largeDeviceMenuSpacing: "0",
+        largeDeviceSubMenuPadding: "0.5rem 1rem",	
+        largeDeviceSubMenuSpacing: "0.4rem",
+        largeDeviceSubMenuGap: "2px",
+
         largeDeviceMenuOffset: "0.5rem",
+        largeDeviceMenuHover: false,
         largeDeviceSubMenuOffset: "-1rem",
         largeDeviceSubMenuReverse: false,
-        largeDeviceSubMenuGap: "2px",
+              
       });
 
       //navBar1.update({ transitionDuration: 2000 })
@@ -226,17 +315,6 @@
         transitionDuration: 300, 
         backgroundColor: "transparent", 
         color: "currentColor"
-      });
-
-
-      // Zoom control
-
-      const zoom1 = zoom(".zoom-image", { 
-        zoomFactor: 1.2,
-        trigger: "hover",
-        transitionDuration: 300,
-        zoomInCallback: null,
-        zoomOutCallback: null
       });
 
 
@@ -260,48 +338,39 @@
 
       // Signals and data binding
 
-      let count = webui.signal(0)
 
-      const btn = webui("#btnCount").click(() => count.value++)
-
-      webui.watch(() => {
-        btn.text(count.value)
-      })
-
-      let sqrt = webui.computed(() => Math.sqrt(count.value))
-
-      webui.watch(() => {
-        webui("#computed").text(sqrt.value)
-      })
-
-
+      // Bind first name and last name to this object.
       webui.bind({
         firstName: "",
         lastName: ""
       });
 
 
-      const formData = new Object();
+      // Set up a signal and watcher for count increment and computed values.
+      let count = webui.signal(0)
 
-      formData.fname = "";
-      formData.lname = "";
-      formData.address = "";
+      const btn = webui("#btnCount").click(() => count.value++)
 
-      webui.bind(formData);
-
-
-      let data = webui.signal("");
+      let sqrt = webui.computed(() => Math.sqrt(count.value))
 
       webui.watch(() => {
-        webui("textarea").val(data.value)
+        btn.text(count.value)
+        webui("#computed").text(sqrt.value)
       })
 
+
+      // Set up a signal and watcher for form data.
+      let data = webui.signal("");
 
       webui("form").submit((e) => {
         e.preventDefault();
         
         data.value = webui.getJsonFormData("form");
       });
+
+      webui.watch(() => {
+        webui("textarea").val(data.value)
+      })
 
     });
 
